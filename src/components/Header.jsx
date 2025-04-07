@@ -1,7 +1,12 @@
 import React from "react";
 
-const Header = () => {
-  return <div className="header">Performance Audit Dashboard</div>;
+const Header = ({ children }) => {
+  return (
+    <div>
+      <div className="header">Performance Audit Dashboard</div>
+      {children}
+    </div>
+  );
 };
 
 export default Header;
