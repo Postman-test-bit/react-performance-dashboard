@@ -1,4 +1,33 @@
 # Getting Started with Create React App
+```
+performance-dashboard-react/
+├── public/
+│   ├── index.html
+│   └── performance.png
+├── src/
+│   ├── components/
+│   │   ├── Header.jsx
+│   │   ├── MetricBox.jsx
+│   │   ├── ChartContainer.jsx
+│   │   ├── FilterContainer.jsx
+│   │   ├── DataTable.jsx
+│   │   ├── ThemeToggle.jsx
+│   │   └── Loading.jsx
+│   ├── charts/
+│   │   ├── PerformanceChart.jsx
+│   │   ├── SEOChart.jsx
+│   │   ├── AccessibilityChart.jsx
+│   │   ├── BestPracticeChart.jsx
+│   │   └── DeviceChart.jsx
+│   ├── styles/
+│   │   └── App.css
+│   ├── App.js
+│   ├── App.test.js
+│   ├── index.js
+│   └── utils.js
+├── package.json
+└── package-lock.json
+```
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
