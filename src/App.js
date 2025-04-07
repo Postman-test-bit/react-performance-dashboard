@@ -49,6 +49,23 @@ function App() {
     );
   });
 
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        "https://test-dashboard-66zd.onrender.com/api/data"
+      );
+      const data = await response.json();
+      setAllData(data);
+      const latest = await fetchLatestData(data);
+      setLatestData(latest);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const fetchLatestData = async (data) => {
     const latestRunResults = Object.values(
       data.reduce((acc, test) => {
@@ -66,22 +83,7 @@ function App() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          "https://test-dashboard-66zd.onrender.com/api/data"
-        );
-        const data = await response.json();
-        setAllData(data);
-        const latest = await fetchLatestData(data);
-        setLatestData(latest);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    fetchData();
   }, []);
 
   if (loading) {
@@ -175,7 +177,7 @@ function App() {
 
       <footer>
         <div className="version-details">
-          <p>Dashboard Version: 2.1.1</p>
+          <p>Dashboard Version: 2.1.2</p>
         </div>
       </footer>
     </div>
