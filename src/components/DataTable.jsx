@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Pagination from "./Pagination";
 
 const DataTable = ({ data, latestData }) => {
   const [showLatestRunOnly, setShowLatestRunOnly] = useState(false);
@@ -101,19 +102,11 @@ const DataTable = ({ data, latestData }) => {
         </table>
       </div>
 
-      <div className="pagination">
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-          <button
-            key={page}
-            className={`pagination-button ${
-              currentPage === page ? "active" : ""
-            }`}
-            onClick={() => setCurrentPage(page)}
-          >
-            {page}
-          </button>
-        ))}
-      </div>
+      <Pagination
+        totalPages={10}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 };

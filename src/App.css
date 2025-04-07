@@ -1,4 +1,12 @@
 /* General Styles */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   font-family: "Poppins", sans-serif;
   background-color: #1e1e2e;
@@ -7,13 +15,16 @@ body {
   padding: 0;
   overflow-x: hidden;
   transition: background-color 0.3s, color 0.3s;
-  margin: 0 5%;
+  margin: 0 0 5%;
 }
 
 .container {
   width: 90%;
   margin: auto;
   padding: 1.25rem;
+}
+label input[type="checkbox"] {
+  margin-right: 5px;
 }
 
 /* Header */
@@ -28,6 +39,7 @@ body {
   margin-bottom: 30px;
   animation: fadeIn 1s ease-in-out;
   width: 100%;
+  margin-top: 20px;
 }
 
 /* Metrics Section */
@@ -139,7 +151,8 @@ table {
   animation: fadeIn 1s ease-in-out;
 }
 
-th, td {
+th,
+td {
   padding: 15px;
   border: 1px solid #4a148c;
   text-align: center;
@@ -258,20 +271,20 @@ tr:hover {
   body {
     margin: 0rem 0.875rem;
   }
-  
+
   .container {
     width: 100%;
     padding: 0.5rem;
   }
-  
+
   .metrics {
     flex-direction: column;
   }
-  
+
   .metric-box {
     width: 100%;
   }
-  
+
   .filter-container {
     flex-direction: column;
     gap: 10px;
@@ -280,12 +293,12 @@ tr:hover {
   .filter-container select {
     width: 100%;
   }
-  
+
   canvas {
-    width: 90% !important;
-    height: 500px !important;
+    width: 100% !important;
+    height: 1080px !important;
   }
-  
+
   #deviceChart {
     height: unset !important;
   }
@@ -295,36 +308,37 @@ tr:hover {
   body {
     margin: 0rem 0.5rem;
   }
-  
+
   .container {
     width: 100%;
     padding: 0.25rem;
   }
-  
+
   .header {
     width: 100%;
     font-size: 24px;
     padding: 20px;
   }
-  
+
   .metric-box h3 {
     font-size: 16px;
   }
-  
+
   .metric-box p {
     font-size: 20px;
   }
-  
+
   .chart-container {
     padding: 0.5rem;
   }
-  
+
   .chart-container h2 {
     font-size: 18px;
   }
-  
+
   canvas {
     width: 90% !important;
+    height: 1080px !important;
   }
 }
 
@@ -558,4 +572,166 @@ body.dark-mode canvas {
 
 body.light-mode canvas {
   background-color: #f4f4f4;
+}
+
+/* General styles that apply to both modes */
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  transition: background-color 0.3s, color 0.3s;
+  margin: 0 5%;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+  background-color: #1e1e2e;
+  color: #fff;
+}
+
+body.dark-mode .header {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #fff;
+}
+
+body.dark-mode .metric-box {
+  background: #333;
+}
+
+body.dark-mode .metric-box h3 {
+  color: #fff;
+}
+
+body.dark-mode .metric-box p {
+  color: #6a11cb;
+}
+
+body.dark-mode .chart-container {
+  background: #222;
+  color: #fff;
+}
+
+body.dark-mode .chart-container h2 {
+  color: #fff;
+}
+
+body.dark-mode table {
+  background: #222;
+  color: #fff;
+}
+
+body.dark-mode th,
+body.dark-mode td {
+  border: 1px solid #4a148c;
+}
+
+body.dark-mode th {
+  background-color: #4a148c;
+  color: #fff;
+}
+
+body.dark-mode tr:hover {
+  background-color: #333;
+}
+
+body.dark-mode .pagination button {
+  background: #333;
+  color: #fff;
+  border: 1px solid #6a11cb;
+}
+
+body.dark-mode .pagination button:hover {
+  background: #444;
+}
+
+body.dark-mode .pagination button.active {
+  background: #6a11cb;
+  color: #fff;
+}
+
+body.dark-mode .theme-toggle {
+  background: #333;
+  color: #fff;
+}
+
+/* Light Mode Styles */
+body.light-mode {
+  background-color: #fff;
+  color: #333;
+}
+
+body.light-mode .header {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #fff;
+}
+
+body.light-mode .metric-box {
+  background: #f4f4f4;
+  color: #333;
+}
+
+body.light-mode .metric-box h3 {
+  color: #333;
+}
+
+body.light-mode .metric-box p {
+  color: #6a11cb;
+}
+
+body.light-mode .chart-container {
+  background: #f4f4f4;
+  color: #333;
+}
+
+body.light-mode .chart-container h2 {
+  color: #333;
+}
+
+body.light-mode table {
+  background: #f4f4f4;
+  color: #333;
+}
+
+body.light-mode th,
+body.light-mode td {
+  border: 1px solid #ddd;
+}
+
+body.light-mode th {
+  background-color: #6a11cb;
+  color: #fff;
+}
+
+body.light-mode tr:hover {
+  background-color: #e0e0e0;
+}
+
+body.light-mode .pagination button {
+  background: #f4f4f4;
+  color: #333;
+  border: 1px solid #6a11cb;
+}
+
+body.light-mode .pagination button:hover {
+  background: #e0e0e0;
+}
+
+body.light-mode .pagination button.active {
+  background: #6a11cb;
+  color: #fff;
+}
+
+body.light-mode .theme-toggle {
+  background: #f4f4f4;
+  color: #333;
+}
+
+/* Chart-specific styles */
+body.dark-mode canvas {
+  background-color: #222 !important;
+}
+
+body.light-mode canvas {
+  background-color: #f4f4f4 !important;
 }

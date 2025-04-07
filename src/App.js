@@ -18,6 +18,15 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState("dark");
 
+  // Apply theme class to body element
+  useEffect(() => {
+    document.body.className = `${theme}-mode`;
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -52,10 +61,6 @@ function App() {
       }, {})
     );
     return latestRunResults;
-  };
-
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   if (loading) {
@@ -111,7 +116,7 @@ function App() {
 
       <footer>
         <div className="version-details">
-          <p>Dashboard Version: 1.0.6</p>
+          <p>Dashboard Version: 2.0.0</p>
         </div>
       </footer>
     </div>
