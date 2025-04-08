@@ -47,7 +47,10 @@ const DataTable = ({ data, latestData }) => {
         <input
           type="checkbox"
           checked={showLatestRunOnly}
-          onChange={() => setShowLatestRunOnly(!showLatestRunOnly)}
+          onChange={() => {
+            setShowLatestRunOnly(!showLatestRunOnly);
+            setCurrentPage(1); // Reset to first page when toggling latest run
+          }}
         />
         Latest Run Result
       </label>
@@ -60,7 +63,7 @@ const DataTable = ({ data, latestData }) => {
             value={deviceFilter}
             onChange={(e) => {
               setDeviceFilter(e.target.value);
-              setCurrentPage(1);
+              setCurrentPage(1); // Reset to first page when changing device filter
             }}
           >
             <option value="All">All</option>
@@ -91,10 +94,10 @@ const DataTable = ({ data, latestData }) => {
               <tr key={`${d.scenario}-${d.created_at}`}>
                 <td>{d.scenario}</td>
                 <td>{d.device}</td>
-                <td>{d.performance_metrics}</td>
-                <td>{d.accessibility_metrics}</td>
-                <td>{d.seo_metrics}</td>
-                <td>{d.best_practice_metrics}</td>
+                <td>{d.performance_metrics.toFixed(2)}</td>
+                <td>{d.accessibility_metrics.toFixed(2)}</td>
+                <td>{d.seo_metrics.toFixed(2)}</td>
+                <td>{d.best_practice_metrics.toFixed(2)}</td>
                 <td>{formatDate(d.created_at)}</td>
               </tr>
             ))}
@@ -102,11 +105,18 @@ const DataTable = ({ data, latestData }) => {
         </table>
       </div>
 
-      <Pagination
-        totalPages={10}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
+      {filteredData.length > rowsPerPage && (
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      )}
+
+      <div className="pagination-info">
+        Showing {start + 1}-{Math.min(end, filteredData.length)} of{" "}
+        {filteredData.length} results
+      </div>
     </div>
   );
 };
