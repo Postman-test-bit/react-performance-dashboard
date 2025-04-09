@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import Pagination from "./Pagination";
 
@@ -57,13 +58,13 @@ const DataTable = ({ data, latestData }) => {
 
       <div className="filter-container">
         <div>
-          <label htmlFor="tableDeviceFilter">Filter by Device:</label>
+          <label htmlFor="tabledeviceFilter">Filter by Device:</label>
           <select
-            id="tableDeviceFilter"
+            id="tabledeviceFilter"
             value={deviceFilter}
             onChange={(e) => {
               setDeviceFilter(e.target.value);
-              setCurrentPage(1); // Reset to first page when changing device filter
+              setCurrentPage(1); // Reset to first page when changing device_type filter
             }}
           >
             <option value="All">All</option>
@@ -87,6 +88,7 @@ const DataTable = ({ data, latestData }) => {
               <th>SEO</th>
               <th>Best Practice</th>
               <th>Date</th>
+              <th>URL</th>
             </tr>
           </thead>
           <tbody>
@@ -99,6 +101,7 @@ const DataTable = ({ data, latestData }) => {
                 <td>{d.seo_metrics}</td>
                 <td>{d.best_practice_metrics}</td>
                 <td>{formatDate(d.created_at)}</td>
+                <td>{d.url}</td>
               </tr>
             ))}
           </tbody>

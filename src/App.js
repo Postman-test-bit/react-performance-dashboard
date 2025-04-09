@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import MetricBox from "./components/MetricBox";
@@ -16,7 +17,7 @@ function App() {
   const [latestData, setLatestData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState("dark");
-  const [searchTerm, setSearchTerm] = useState(""); // Global search state
+  const [searchTerm, setSearchTerm] = useState("");
   const [urlFilter, setUrlFilter] = useState("");
 
   // Apply theme class to body element
@@ -44,7 +45,7 @@ function App() {
         const matchesSearch =
           item.name?.toLowerCase().includes(term) ||
           item.url?.toLowerCase().includes(term) ||
-          item.test_name?.toLowerCase().includes(term);
+          item.scenario?.toLowerCase().includes(term);
         if (!matchesSearch) return false;
       }
 
@@ -151,8 +152,8 @@ function App() {
           score={filteredLatestData[0]?.accessibility_metrics || 0}
           onClick={() =>
             document
-              .getElementById("accessibilityChart")
-              .scrollIntoView({ behavior: "smooth" })
+              .getElementById("AccessibilityChart")
+              .scrollIntoView({ behavior: "smooth", force: true })
           }
           theme={theme}
         />
@@ -161,18 +162,18 @@ function App() {
           score={filteredLatestData[0]?.seo_metrics || 0}
           onClick={() =>
             document
-              .getElementById("seoChart")
-              .scrollIntoView({ behavior: "smooth" })
+              .getElementById("SEOChart")
+              .scrollIntoView({ behavior: "smooth", force: true })
           }
           theme={theme}
         />
         <MetricBox
-          title="Best Practices"
+          title="Best-Practices"
           score={filteredLatestData[0]?.best_practice_metrics || 0}
           onClick={() =>
             document
-              .getElementById("bestPracticeChart")
-              .scrollIntoView({ behavior: "smooth" })
+              .getElementById("Best-PracticesChart")
+              .scrollIntoView({ behavior: "smooth", force: true })
           }
           theme={theme}
         />
