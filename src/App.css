@@ -340,6 +340,9 @@ tr:hover {
     width: 90% !important;
     height: 1080px !important;
   }
+  #deviceChart {
+    height: unset !important;
+  }
 }
 
 /* Light Mode Styles */
@@ -765,15 +768,115 @@ body.light-mode canvas {
   background-color: #d32f2f;
 }
 
-.version-details{
+.version-details {
   margin: 20px 0;
   padding: 20px;
   background-color: #542690;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-.version-details p{
+.version-details p {
   margin: 0;
   font-size: 1rem;
   color: #fff;
+}
+
+/* Add these styles to your existing App.css */
+.filters-container {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.url-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.url-filter label {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.url-filter select {
+  width: 16rem;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.clear-all-filters {
+  padding: 8px 12px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.clear-all-filters:hover {
+  background-color: #e0e0e0;
+}
+.pagination-info {
+  padding-top: 5%;
+}
+
+/* Chart tooltip styles */
+.custom-tooltip {
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #6a11cb;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.custom-tooltip.dark {
+  background: #333;
+  color: #fff;
+  border-color: #9c27b0;
+}
+
+.tooltip-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  white-space: nowrap;
+}
+
+.tooltip-item {
+  margin: 3px 0;
+  white-space: nowrap;
+}
+
+/* Y-axis label truncation */
+.recharts-y-axis .recharts-cartesian-axis-tick {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 150px;
+  display: inline-block;
+}
+
+/* Chart container styles */
+.chart-container {
+  margin: 20px 0;
+  padding: 20px;
+  background: var(--chart-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dark .chart-container {
+  background: var(--dark-chart-bg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.recharts-cartesian-axis-ticks {
+  font-size: 12px;
+}
+g.recharts-layer.recharts-bar-rectangle {
+  width: 20%;
 }
