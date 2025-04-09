@@ -1,14 +1,70 @@
-import React, { useEffect, useRef } from "react";
-import Chart from "../utils/chartConfig";
+// src/charts/AccessibilityChart.jsx
+import React, { useEffect, useState } from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  LabelList,
+  Cell,
+  Text,
+} from "recharts";
 import FilterContainer from "../components/FilterContainer";
 import ChartContainer from "../components/ChartContainer";
 
+// Custom YAxis tick to handle text truncation
+const CustomYAxisTick = ({ x, y, payload, theme }) => {
+  const maxLength = 20; // Maximum characters before truncation
+  let displayValue = payload.value;
+
+  if (displayValue.length > maxLength) {
+    displayValue = displayValue.substring(0, maxLength) + "...";
+  }
+
+  return (
+    <Text
+      x={x}
+      y={y}
+      fill={theme === "dark" ? "#fff" : "#333"}
+      textAnchor="end"
+      verticalAnchor="middle"
+      fontSize={12}
+    >
+      {displayValue}
+    </Text>
+  );
+};
+
+const CustomTooltip = ({ active, payload, label, tooltipData, theme }) => {
+  if (active && payload && payload.length && tooltipData[label]) {
+    const runs = tooltipData[label];
+    return (
+      <div
+        style={{
+          backgroundColor: theme === "dark" ? "#333" : "#fff",
+          color: theme === "dark" ? "#fff" : "#333",
+          border: "1px solid #6a11cb",
+          padding: "10px",
+        }}
+      >
+        <strong>{label}</strong>
+        {runs.map((run, index) => (
+          <div key={index}>
+            Run {index + 1} ({run.date}): {run.score}
+          </div>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
+
 const AccessibilityChart = ({ data, allData, theme }) => {
-  const chartRef = useRef(null);
-  const chartInstance = useRef(null);
-  const [filteredData, setFilteredData] = React.useState(data);
-  const [deviceFilter, setDeviceFilter] = React.useState("All");
-  const [accessibilityFilter, setAccessibilityFilter] = React.useState("All");
+  const [filteredData, setFilteredData] = useState(data);
+  const [deviceFilter, setDeviceFilter] = useState("All");
+  const [accessibilityFilter, setAccessibilityFilter] = useState("All");
 
   const deviceTypes = [...new Set(allData.map((d) => d.device))];
 
@@ -34,127 +90,48 @@ const AccessibilityChart = ({ data, allData, theme }) => {
     setFilteredData(filtered);
   };
 
-  useEffect(() => {
-    if (filteredData.length === 0 || !chartRef.current) return;
+  const sortedData = [...filteredData].sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  );
 
-    if (chartInstance.current) {
-      chartInstance.current.destroy();
-    }
+  const latestTests = {};
+  const latestTestsTooltip = {};
 
-    const sortedData = [...filteredData].sort(
-      (a, b) => new Date(b.created_at) - new Date(a.created_at)
-    );
+  sortedData.forEach((d) => {
+    if (!latestTests[d.scenario]) latestTests[d.scenario] = [];
+    if (latestTests[d.scenario].length < 3) latestTests[d.scenario].push(d);
+  });
 
-    const latestTests = {};
-    const latestTestsTooltip = {};
+  allData.forEach((d) => {
+    if (!latestTestsTooltip[d.scenario]) latestTestsTooltip[d.scenario] = [];
+    if (latestTestsTooltip[d.scenario].length < 3)
+      latestTestsTooltip[d.scenario].push(d);
+  });
 
-    sortedData.forEach((d) => {
-      if (!latestTests[d.scenario]) latestTests[d.scenario] = [];
-      if (latestTests[d.scenario].length < 3) latestTests[d.scenario].push(d);
-    });
-
-    allData.forEach((d) => {
-      if (!latestTestsTooltip[d.scenario]) latestTestsTooltip[d.scenario] = [];
-      if (latestTestsTooltip[d.scenario].length < 3)
-        latestTestsTooltip[d.scenario].push(d);
-    });
-
-    const testNames = Object.keys(latestTests);
-    const barData = testNames.map(
-      (test) =>
-        latestTests[test][latestTests[test].length - 1].accessibility_metrics
-    );
-
-    const tooltipData = testNames.map((test) =>
-      latestTestsTooltip[test]
-        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-        .map((run) => ({
-          date: new Date(run.created_at).toLocaleDateString(),
-          score: run.accessibility_metrics,
-        }))
-    );
-
-    const barColors = barData.map((score) => {
-      if (score >= 80) return "rgb(0, 190, 0)";
-      if (score >= 60 && score <= 79) return "rgba(255, 159, 64, 0.8)";
-      return "rgb(190, 0, 0)";
-    });
-
-    const ctx = chartRef.current.getContext("2d");
-
-    chartInstance.current = new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: testNames,
-        datasets: [
-          {
-            label: "Latest Accessibility",
-            data: barData,
-            backgroundColor: barColors,
-            borderColor: barColors.map((color) => color.replace("0.8", "1")),
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        indexAxis: "y",
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            type: "linear",
-            beginAtZero: true,
-            max: 100,
-          },
-          y: {
-            type: "category",
-          },
-        },
-        plugins: {
-          tooltip: {
-            enabled: true,
-            callbacks: {
-              title: (context) => context[0].label,
-              label: (context) => {
-                const runs = tooltipData[context.dataIndex];
-                return runs.map(
-                  (run, index) => `Run ${index + 1} (${run.date}): ${run.score}`
-                );
-              },
-            },
-            backgroundColor: theme === "dark" ? "#333" : "#fff",
-            titleColor: theme === "dark" ? "#fff" : "#333",
-            bodyColor: theme === "dark" ? "#fff" : "#333",
-            borderColor: "#6a11cb",
-            borderWidth: 1,
-          },
-          legend: { display: false },
-          title: {
-            display: true,
-            text: "Accessibility for Last 3 Runs",
-            color: theme === "dark" ? "#fff" : "#333",
-          },
-          datalabels: {
-            anchor: "end",
-            align: (context) =>
-              context.dataset.data[context.dataIndex] >= 95 ? "start" : "end",
-            color: (context) => {
-              if (context.raw >= 90) return "#000";
-              return theme === "dark" ? "#fff" : "#333";
-            },
-            font: { weight: "bold", size: 14 },
-            formatter: (value) => value,
-          },
-        },
-      },
-    });
-
-    return () => {
-      if (chartInstance.current) {
-        chartInstance.current.destroy();
-      }
+  const testNames = Object.keys(latestTests);
+  const barData = testNames.map((test) => {
+    const score = latestTests[test][0].accessibility_metrics;
+    return {
+      name: test,
+      score,
+      fill:
+        score >= 80
+          ? "rgb(0, 190, 0)"
+          : score >= 60
+          ? "rgba(255, 159, 64, 0.8)"
+          : "rgb(190, 0, 0)",
     };
-  }, [filteredData, theme]);
+  });
+
+  const tooltipData = {};
+  testNames.forEach((test) => {
+    tooltipData[test] = latestTestsTooltip[test]
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+      .map((run) => ({
+        date: new Date(run.created_at).toLocaleDateString(),
+        score: run.accessibility_metrics,
+      }));
+  });
 
   const filters = (
     <FilterContainer
@@ -175,7 +152,56 @@ const AccessibilityChart = ({ data, allData, theme }) => {
 
   return (
     <ChartContainer title="Accessibility for Last 3 Runs" filters={filters}>
-      <canvas id="accessibilityChart" ref={chartRef}></canvas>
+      <div
+        id="accessibilityChart"
+        style={{
+          width: "100%",
+          height: `${Math.max(400, barData.length * 40)}px`,
+        }}
+      >
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={barData}
+            layout="vertical"
+            margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+          >
+            <XAxis
+              type="number"
+              domain={[0, 100]}
+              tick={{ fill: theme === "dark" ? "#fff" : "#333" }}
+            />
+            <YAxis
+              type="category"
+              dataKey="name"
+              width={150}
+              tick={(props) => <CustomYAxisTick {...props} theme={theme} />}
+              tickLine={false}
+            />
+            <Tooltip
+              content={(props) => (
+                <CustomTooltip
+                  {...props}
+                  tooltipData={tooltipData}
+                  theme={theme}
+                />
+              )}
+            />
+            <Bar dataKey="score" isAnimationActive={false}>
+              {barData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.fill} />
+              ))}
+              <LabelList
+                dataKey="score"
+                position="right"
+                style={{
+                  fill: theme === "dark" ? "#fff" : "#333",
+                  fontWeight: "bold",
+                }}
+              />
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </ChartContainer>
   );
 };
