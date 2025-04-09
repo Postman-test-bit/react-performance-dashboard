@@ -148,10 +148,11 @@ function App() {
       </div>
 
       <PerformanceChart
-        data={filteredLatestData}
+        data={filteredData} // 👈 pass all filtered data instead of just latest
         allData={filteredData}
         theme={theme}
       />
+
       <SEOChart
         data={filteredLatestData}
         allData={filteredData}
