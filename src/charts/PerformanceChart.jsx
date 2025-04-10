@@ -21,13 +21,21 @@ const PerformanceChart = ({ data, theme = 'light' }) => {
     // Process and sort scenarios
     return Object.entries(grouped).map(([scenario, entries]) => {
       const sorted = entries
-        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-        .slice(0, 3)
-        .reverse();
+        .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))  // Sort chronologically (oldest to newest)
+        .slice(-3);  // Get last 3 entries
 
       const scores = sorted.map(item => parseFloat(item.performance_metrics) || 0);
-      const currentScore = scores[scores.length - 1];
-      const trend = currentScore - scores[0];
+      const currentScore = scores[scores.length - 1];  // Latest score
+      const previousScore = scores[scores.length - 2] || scores[scores.length - 1];  // Previous score or latest if not available
+      const trend = currentScore - previousScore;  // Calculate trend between latest and previous run
+
+      // Debug logging
+      console.log('Scenario:', scenario, {
+        scores,
+        currentScore,
+        previousScore,
+        trend
+      });
 
       return {
         scenario,
@@ -127,7 +135,7 @@ const PerformanceChart = ({ data, theme = 'light' }) => {
     },
     series: [{
       data: processedScenarios[0].entries.map(e => parseFloat(e.performance_metrics)),
-      color: processedScenarios[0].trend >= 0 ? 
+      color: processedScenarios[0].trend > 0 ?  // Changed from >= to > to only show green for actual improvements
         (theme === 'light' ? '#22c55e' : '#4ade80') : 
         (theme === 'light' ? '#ef4444' : '#f87171')
     }]

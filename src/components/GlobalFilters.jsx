@@ -46,7 +46,7 @@ const GlobalFilters = ({
       flexDirection: 'column',
       gap: '16px',
       padding: '16px',
-      backgroundColor: theme === 'light' ? 'white' : 'var(--bg-secondary)',
+      backgroundColor: theme === 'light' ? 'white' : '#1f2937',
       borderRadius: '8px',
       boxShadow: theme === 'light' ? 
         '0 1px 3px rgba(0, 0, 0, 0.1)' : 
@@ -100,9 +100,14 @@ const GlobalFilters = ({
               padding: '8px 12px',
               borderRadius: '6px',
               border: `1px solid ${theme === 'light' ? '#e2e8f0' : '#374151'}`,
-              backgroundColor: theme === 'light' ? 'white' : 'var(--bg-tertiary)',
-              color: theme === 'light' ? 'var(--text-primary)' : 'var(--text-primary)',
-              fontSize: '14px'
+              backgroundColor: theme === 'light' ? '#ffffff' : '#1f2937',
+              color: theme === 'light' ? '#1e293b' : '#e2e8f0',
+              fontSize: '14px',
+              outline: 'none',
+              '&:focus': {
+                borderColor: theme === 'light' ? '#3b82f6' : '#60a5fa',
+                boxShadow: `0 0 0 1px ${theme === 'light' ? '#3b82f6' : '#60a5fa'}`
+              }
             }}
           />
         </div>
@@ -117,9 +122,14 @@ const GlobalFilters = ({
               padding: '8px 12px',
               borderRadius: '6px',
               border: `1px solid ${theme === 'light' ? '#e2e8f0' : '#374151'}`,
-              backgroundColor: theme === 'light' ? 'white' : 'var(--bg-tertiary)',
-              color: theme === 'light' ? 'var(--text-primary)' : 'var(--text-primary)',
-              fontSize: '14px'
+              backgroundColor: theme === 'light' ? '#ffffff' : '#1f2937',
+              color: theme === 'light' ? '#1e293b' : '#e2e8f0',
+              fontSize: '14px',
+              outline: 'none',
+              '&:focus': {
+                borderColor: theme === 'light' ? '#3b82f6' : '#60a5fa',
+                boxShadow: `0 0 0 1px ${theme === 'light' ? '#3b82f6' : '#60a5fa'}`
+              }
             }}
           >
             {renderOptions(availableURIs, "All URIs")}
@@ -136,9 +146,14 @@ const GlobalFilters = ({
               padding: '8px 12px',
               borderRadius: '6px',
               border: `1px solid ${theme === 'light' ? '#e2e8f0' : '#374151'}`,
-              backgroundColor: theme === 'light' ? 'white' : 'var(--bg-tertiary)',
-              color: theme === 'light' ? 'var(--text-primary)' : 'var(--text-primary)',
-              fontSize: '14px'
+              backgroundColor: theme === 'light' ? '#ffffff' : '#1f2937',
+              color: theme === 'light' ? '#1e293b' : '#e2e8f0',
+              fontSize: '14px',
+              outline: 'none',
+              '&:focus': {
+                borderColor: theme === 'light' ? '#3b82f6' : '#60a5fa',
+                boxShadow: `0 0 0 1px ${theme === 'light' ? '#3b82f6' : '#60a5fa'}`
+              }
             }}
           >
             {renderOptions(availableProducts, "All Products")}
@@ -155,9 +170,14 @@ const GlobalFilters = ({
               padding: '8px 12px',
               borderRadius: '6px',
               border: `1px solid ${theme === 'light' ? '#e2e8f0' : '#374151'}`,
-              backgroundColor: theme === 'light' ? 'white' : 'var(--bg-tertiary)',
-              color: theme === 'light' ? 'var(--text-primary)' : 'var(--text-primary)',
-              fontSize: '14px'
+              backgroundColor: theme === 'light' ? '#ffffff' : '#1f2937',
+              color: theme === 'light' ? '#1e293b' : '#e2e8f0',
+              fontSize: '14px',
+              outline: 'none',
+              '&:focus': {
+                borderColor: theme === 'light' ? '#3b82f6' : '#60a5fa',
+                boxShadow: `0 0 0 1px ${theme === 'light' ? '#3b82f6' : '#60a5fa'}`
+              }
             }}
           >
             {renderOptions(availableDevices, "All Devices")}
