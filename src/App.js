@@ -156,19 +156,23 @@ function App() {
       <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
 
       {/* Global Header */}
-      <div style={{
-        padding: '24px',
-        textAlign: 'center',
-        borderBottom: '1px solid var(--border-color)',
-        backgroundColor: 'var(--bg-secondary)',
-      }}>
-        <h1 style={{
-          margin: 0,
-          fontSize: '28px',
-          fontWeight: '600',
-          color: 'var(--text-primary)',
-          letterSpacing: '-0.025em'
-        }}>
+      <div
+        style={{
+          padding: "24px",
+          textAlign: "center",
+          borderBottom: "1px solid var(--border-color)",
+          backgroundColor: "var(--bg-secondary)",
+        }}
+      >
+        <h1
+          style={{
+            margin: 0,
+            fontSize: "28px",
+            fontWeight: "600",
+            color: "var(--text-primary)",
+            letterSpacing: "-0.025em",
+          }}
+        >
           Networks Performance Dashboard
         </h1>
       </div>
@@ -177,22 +181,27 @@ function App() {
       <KPICards data={filteredData} theme={theme} />
 
       {/* Global Filters */}
-      <main style={{ 
-        maxWidth: '1400px', 
-        margin: '0 auto', 
-        padding: '20px',
-        width: '100%'
-      }}>
-        <div style={{ 
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '20px'
-        }}>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '20px'
-          }}>
+      <main
+        style={{
+          maxWidth: "1400px",
+          margin: "0 auto",
+          width: "100%",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "20px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+            }}
+          >
             <GlobalFilters
               uriFilter={uriFilter}
               setUriFilter={setUriFilter}
@@ -208,11 +217,13 @@ function App() {
               theme={theme}
             />
 
-            <div style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              padding: '0 20px'
-            }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                padding: "0 20px",
+              }}
+            >
               <DateFilter
                 startDate={startDate}
                 endDate={endDate}
@@ -223,16 +234,16 @@ function App() {
             </div>
           </div>
 
-          <MetricsContainer 
-            data={filteredData} 
-            allData={allData} 
-            theme={theme} 
+          <MetricsContainer
+            data={filteredData}
+            allData={allData}
+            theme={theme}
           />
-          
-          <DataTable 
+
+          <DataTable
             data={filteredData}
             latestData={latestData}
-            theme={theme} 
+            theme={theme}
           />
         </div>
       </main>

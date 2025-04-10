@@ -41,29 +41,35 @@ const DataTable = ({ data, latestData, theme }) => {
   const avgData = calculateAverageData(data);
 
   return (
-    <div className="card" style={{ margin: '20px', overflow: 'hidden' }}>
-      <div style={{ padding: '20px' }}>
-        <h2 style={{ 
-          color: 'var(--text-primary)',
-          marginTop: 0,
-          marginBottom: '20px'
-        }}>
+    <div className="card" style={{ margin: "20px", overflow: "hidden" }}>
+      <div style={{ padding: "20px" }}>
+        <h2
+          style={{
+            color: "var(--text-primary)",
+            marginTop: 0,
+            marginBottom: "20px",
+          }}
+        >
           All Performance Test Results
         </h2>
 
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '24px',
-          marginBottom: '20px'
-        }}>
-          <label style={{ 
-            display: 'flex', 
-            alignItems: 'center',
-            gap: '8px',
-            color: 'var(--text-secondary)',
-            cursor: 'pointer'
-          }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "24px",
+            marginBottom: "20px",
+          }}
+        >
+          <label
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              color: "var(--text-secondary)",
+              cursor: "pointer",
+            }}
+          >
             <input
               type="checkbox"
               checked={showLatestRunOnly}
@@ -72,22 +78,24 @@ const DataTable = ({ data, latestData, theme }) => {
                 setCurrentPage(1);
               }}
               style={{
-                width: '16px',
-                height: '16px',
-                cursor: 'pointer'
+                width: "16px",
+                height: "16px",
+                cursor: "pointer",
               }}
             />
             Latest Run Result
           </label>
 
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px'
-          }}>
-            <label 
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            <label
               htmlFor="tableDeviceFilter"
-              style={{ color: 'var(--text-secondary)' }}
+              style={{ color: "var(--text-secondary)" }}
             >
               Filter by Device:
             </label>
@@ -99,12 +107,12 @@ const DataTable = ({ data, latestData, theme }) => {
                 setCurrentPage(1);
               }}
               style={{
-                padding: '6px 12px',
-                borderRadius: '6px',
-                border: '1px solid var(--border-color)',
-                backgroundColor: 'var(--bg-secondary)',
-                color: 'var(--text-primary)',
-                cursor: 'pointer'
+                padding: "6px 12px",
+                borderRadius: "6px",
+                border: "1px solid var(--border-color)",
+                backgroundColor: "var(--bg-secondary)",
+                color: "var(--text-primary)",
+                cursor: "pointer",
               }}
             >
               <option value="All">All</option>
@@ -117,20 +125,23 @@ const DataTable = ({ data, latestData, theme }) => {
           </div>
         </div>
 
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{
-            width: '100%',
-            borderCollapse: 'collapse',
-            backgroundColor: 'var(--card-bg)',
-            borderRadius: '8px',
-            overflow: 'hidden'
-          }}>
+        <div style={{ overflowX: "auto" }}>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              backgroundColor: "var(--card-bg)",
+              borderRadius: "8px",
+              overflow: "hidden",
+            }}
+          >
             <thead>
-              <tr style={{
-                backgroundColor: 'var(--bg-secondary)',
-                color: 'var(--text-primary)',
-                fontSize: '14px'
-              }}>
+              <tr
+                style={{
+                  backgroundColor: "var(--bg-secondary)",
+                  fontSize: "14px",
+                }}
+              >
                 <th style={tableHeaderStyle}>Test Name</th>
                 <th style={tableHeaderStyle}>Device Type</th>
                 <th style={tableHeaderStyle}>Performance</th>
@@ -142,21 +153,29 @@ const DataTable = ({ data, latestData, theme }) => {
             </thead>
             <tbody>
               {paginatedData.map((d) => (
-                <tr 
+                <tr
                   key={`${d.scenario}-${d.created_at}`}
                   style={{
-                    borderBottom: '1px solid var(--border-color)',
-                    ':hover': {
-                      backgroundColor: 'var(--hover-bg)'
-                    }
+                    borderBottom: "1px solid var(--border-color)",
+                    cursor: "pointer",
+                    transition: "background-color 0.2s ease",
                   }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.backgroundColor =
+                      theme === "dark"
+                        ? "var(--hover-bg-dark)"
+                        : "var(--hover-bg-light)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.backgroundColor = "transparent")
+                  }
                 >
                   <td style={tableCellStyle}>{d.scenario}</td>
                   <td style={tableCellStyle}>{d.device}</td>
-                  <td style={tableCellStyle}>{d.performance_metrics.toFixed(2)}</td>
-                  <td style={tableCellStyle}>{d.accessibility_metrics.toFixed(2)}</td>
-                  <td style={tableCellStyle}>{d.seo_metrics.toFixed(2)}</td>
-                  <td style={tableCellStyle}>{d.best_practice_metrics.toFixed(2)}</td>
+                  <td style={tableCellStyle}>{d.performance_metrics}</td>
+                  <td style={tableCellStyle}>{d.accessibility_metrics}</td>
+                  <td style={tableCellStyle}>{d.seo_metrics}</td>
+                  <td style={tableCellStyle}>{d.best_practice_metrics}</td>
                   <td style={tableCellStyle}>{formatDate(d.created_at)}</td>
                 </tr>
               ))}
@@ -164,19 +183,22 @@ const DataTable = ({ data, latestData, theme }) => {
           </table>
         </div>
 
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginTop: '20px',
-          color: 'var(--text-secondary)',
-          fontSize: '14px'
-        }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: "20px",
+            color: "var(--text-secondary)",
+            fontSize: "14px",
+          }}
+        >
           <div className="pagination-info">
             Showing {start + 1}-{Math.min(end, filteredData.length)} of{" "}
             {filteredData.length} results
           </div>
-
+        </div>
+        <div>
           {filteredData.length > rowsPerPage && (
             <Pagination
               totalPages={totalPages}

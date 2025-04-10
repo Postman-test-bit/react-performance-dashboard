@@ -85,7 +85,7 @@ body {
 .table-container th {
   background-color: var(--bg-secondary);
   font-weight: 600;
-  color: var(--text-primary);
+  color: #fff !important;
 }
 
 .table-container tr:last-child td {

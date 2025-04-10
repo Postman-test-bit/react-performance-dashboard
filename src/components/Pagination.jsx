@@ -1,7 +1,7 @@
 import React from "react";
 
 const Pagination = ({ totalPages, currentPage, setCurrentPage, theme }) => {
-  const maxVisiblePages = 5;
+  const maxVisiblePages = 4;
   
   const getVisiblePages = () => {
     if (totalPages <= maxVisiblePages) {
