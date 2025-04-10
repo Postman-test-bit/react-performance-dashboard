@@ -31,99 +31,134 @@ const GlobalFilters = ({
     );
   };
 
-  const selectStyle = {
-    padding: '8px 12px',
-    borderRadius: '6px',
-    border: '1px solid var(--border-color)',
-    backgroundColor: 'var(--bg-secondary)',
-    color: 'var(--text-primary)',
-    width: '100%',
-    cursor: 'pointer'
+  const clearAllFilters = () => {
+    setUriFilter('');
+    setProductFilter('');
+    setDeviceFilter('');
+    setSearchQuery('');
   };
 
-  const labelStyle = {
-    color: 'var(--text-secondary)',
-    fontSize: '14px',
-    fontWeight: '500'
-  };
+  const isSmallScreen = typeof window !== 'undefined' && window.innerWidth < 768;
 
   return (
-    <div className="card" style={{ 
-      margin: '20px',
-      padding: '20px',
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '16px',
+      padding: '16px',
+      backgroundColor: theme === 'light' ? 'white' : 'var(--bg-secondary)',
+      borderRadius: '8px',
+      boxShadow: theme === 'light' ? 
+        '0 1px 3px rgba(0, 0, 0, 0.1)' : 
+        '0 1px 3px rgba(0, 0, 0, 0.3)'
     }}>
+      {/* Top Row - Clear Filters Button */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'flex-end',
+        width: '100%'
+      }}>
+        <button
+          onClick={clearAllFilters}
+          style={{
+            padding: '8px 20px',
+            borderRadius: '6px',
+            border: 'none',
+            backgroundColor: theme === 'light' ? '#ef4444' : '#dc2626',
+            color: 'white',
+            fontSize: '14px',
+            fontWeight: '500',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            width: isSmallScreen ? '100%' : 'auto',
+            ':hover': {
+              backgroundColor: theme === 'light' ? '#dc2626' : '#b91c1c',
+              transform: 'translateY(-1px)'
+            }
+          }}
+        >
+          Clear All Filters
+        </button>
+      </div>
+
+      {/* Filters Grid */}
       <div style={{
         display: 'grid',
-        gap: '20px',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+        gridTemplateColumns: isSmallScreen ? '1fr' : 'repeat(4, 1fr)',
+        gap: '16px',
+        width: '100%'
       }}>
         {/* Search Input */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <label 
-            htmlFor="search"
-            style={labelStyle}
-          >
-            Search
-          </label>
+        <div>
           <input
-            id="search"
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by any field..."
-            style={selectStyle}
+            placeholder="Search..."
+            style={{
+              width: '100%',
+              padding: '8px 12px',
+              borderRadius: '6px',
+              border: `1px solid ${theme === 'light' ? '#e2e8f0' : '#374151'}`,
+              backgroundColor: theme === 'light' ? 'white' : 'var(--bg-tertiary)',
+              color: theme === 'light' ? 'var(--text-primary)' : 'var(--text-primary)',
+              fontSize: '14px'
+            }}
           />
         </div>
 
         {/* URI Filter */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <label 
-            htmlFor="uri-filter"
-            style={labelStyle}
-          >
-            URI
-          </label>
+        <div>
           <select
-            id="uri-filter"
             value={uriFilter}
             onChange={(e) => setUriFilter(e.target.value)}
-            style={selectStyle}
+            style={{
+              width: '100%',
+              padding: '8px 12px',
+              borderRadius: '6px',
+              border: `1px solid ${theme === 'light' ? '#e2e8f0' : '#374151'}`,
+              backgroundColor: theme === 'light' ? 'white' : 'var(--bg-tertiary)',
+              color: theme === 'light' ? 'var(--text-primary)' : 'var(--text-primary)',
+              fontSize: '14px'
+            }}
           >
             {renderOptions(availableURIs, "All URIs")}
           </select>
         </div>
 
         {/* Product Filter */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <label 
-            htmlFor="product-filter"
-            style={labelStyle}
-          >
-            Product
-          </label>
+        <div>
           <select
-            id="product-filter"
             value={productFilter}
             onChange={(e) => setProductFilter(e.target.value)}
-            style={selectStyle}
+            style={{
+              width: '100%',
+              padding: '8px 12px',
+              borderRadius: '6px',
+              border: `1px solid ${theme === 'light' ? '#e2e8f0' : '#374151'}`,
+              backgroundColor: theme === 'light' ? 'white' : 'var(--bg-tertiary)',
+              color: theme === 'light' ? 'var(--text-primary)' : 'var(--text-primary)',
+              fontSize: '14px'
+            }}
           >
             {renderOptions(availableProducts, "All Products")}
           </select>
         </div>
 
         {/* Device Filter */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <label 
-            htmlFor="device-filter"
-            style={labelStyle}
-          >
-            Device
-          </label>
+        <div>
           <select
-            id="device-filter"
             value={deviceFilter}
             onChange={(e) => setDeviceFilter(e.target.value)}
-            style={selectStyle}
+            style={{
+              width: '100%',
+              padding: '8px 12px',
+              borderRadius: '6px',
+              border: `1px solid ${theme === 'light' ? '#e2e8f0' : '#374151'}`,
+              backgroundColor: theme === 'light' ? 'white' : 'var(--bg-tertiary)',
+              color: theme === 'light' ? 'var(--text-primary)' : 'var(--text-primary)',
+              fontSize: '14px'
+            }}
           >
             {renderOptions(availableDevices, "All Devices")}
           </select>

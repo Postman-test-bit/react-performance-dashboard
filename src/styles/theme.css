@@ -72,6 +72,8 @@ body {
   background-color: var(--card-bg);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .table th,
@@ -81,7 +83,24 @@ body {
 }
 
 .table thead {
-  background-color: var(--bg-secondary);
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.table thead th {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.table tbody tr:hover {
+  background-color: var(--hover-bg);
+}
+
+@media (max-width: 768px) {
+  .table th,
+  .table td {
+    padding: 0.5rem 0.75rem;
+  }
 }
 
 /* Input styles */

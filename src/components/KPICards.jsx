@@ -63,68 +63,126 @@ const KPICards = ({ data, theme }) => {
     return theme === 'light' ? '#ef4444' : '#f87171';
   };
 
-  const cards = [
-    { title: 'Performance', value: averages.performance, icon: '⚡' },
-    { title: 'SEO', value: averages.seo, icon: '🔍' },
-    { title: 'Accessibility', value: averages.accessibility, icon: '♿' },
-    { title: 'Best Practices', value: averages.bestPractices, icon: '✨' }
-  ];
+  const cardStyle = {
+    backgroundColor: theme === 'light' ? 'white' : 'var(--bg-secondary)',
+    borderRadius: '8px',
+    padding: '16px',
+    boxShadow: theme === 'light' ? 
+      '0 1px 3px rgba(0, 0, 0, 0.1)' : 
+      '0 1px 3px rgba(0, 0, 0, 0.3)',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    transition: 'transform 0.2s ease',
+    cursor: 'pointer',
+    ':hover': {
+      transform: 'translateY(-2px)'
+    }
+  };
+
+  const titleStyle = {
+    fontSize: '14px',
+    color: theme === 'light' ? 'var(--text-secondary)' : 'var(--text-secondary)',
+    marginBottom: '4px'
+  };
+
+  const scoreStyle = {
+    fontSize: '24px',
+    fontWeight: '600',
+    color: getScoreColor(averages.performance)
+  };
 
   return (
     <div style={{
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-      gap: '16px',
-      padding: '16px',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+      gap: '1rem',
+      padding: '1rem',
       width: '100%'
     }}>
-      {cards.map(card => (
-        <div key={card.title} style={{
-          backgroundColor: theme === 'light' ? 'white' : 'var(--bg-secondary)',
-          borderRadius: '8px',
-          padding: '16px',
-          boxShadow: theme === 'light' ? 
-            '0 1px 3px rgba(0, 0, 0, 0.1)' : 
-            '0 1px 3px rgba(0, 0, 0, 0.3)',
+      {/* Performance Card */}
+      <div style={cardStyle}>
+        <div style={{
+          fontSize: '24px',
+          width: '40px',
+          height: '40px',
           display: 'flex',
           alignItems: 'center',
-          gap: '12px',
-          transition: 'transform 0.2s ease',
-          cursor: 'pointer',
-          ':hover': {
-            transform: 'translateY(-2px)'
-          }
+          justifyContent: 'center',
+          backgroundColor: theme === 'light' ? 'var(--bg-primary)' : 'var(--bg-tertiary)',
+          borderRadius: '8px'
         }}>
-          <div style={{
-            fontSize: '24px',
-            width: '40px',
-            height: '40px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: theme === 'light' ? 'var(--bg-primary)' : 'var(--bg-tertiary)',
-            borderRadius: '8px'
-          }}>
-            {card.icon}
-          </div>
-          <div>
-            <div style={{
-              fontSize: '14px',
-              color: theme === 'light' ? 'var(--text-secondary)' : 'var(--text-secondary)',
-              marginBottom: '4px'
-            }}>
-              {card.title}
-            </div>
-            <div style={{
-              fontSize: '24px',
-              fontWeight: '600',
-              color: getScoreColor(card.value)
-            }}>
-              {card.value}%
-            </div>
-          </div>
+          ⚡
         </div>
-      ))}
+        <div>
+          <h3 style={titleStyle}>Performance</h3>
+          <p style={scoreStyle}>{averages.performance}%</p>
+        </div>
+      </div>
+
+      {/* SEO Card */}
+      <div style={cardStyle}>
+        <div style={{
+          fontSize: '24px',
+          width: '40px',
+          height: '40px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: theme === 'light' ? 'var(--bg-primary)' : 'var(--bg-tertiary)',
+          borderRadius: '8px'
+        }}>
+          🔍
+        </div>
+        <div>
+          <h3 style={titleStyle}>SEO</h3>
+          <p style={scoreStyle}>{averages.seo}%</p>
+        </div>
+      </div>
+
+      {/* Accessibility Card */}
+      <div style={cardStyle}>
+        <div style={{
+          fontSize: '24px',
+          width: '40px',
+          height: '40px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: theme === 'light' ? 'var(--bg-primary)' : 'var(--bg-tertiary)',
+          borderRadius: '8px'
+        }}>
+          ♿
+        </div>
+        <div>
+          <h3 style={titleStyle}>Accessibility</h3>
+          <p style={scoreStyle}>{averages.accessibility}%</p>
+        </div>
+      </div>
+
+      {/* Best Practices Card */}
+      <div style={cardStyle}>
+        <div style={{
+          fontSize: '24px',
+          width: '40px',
+          height: '40px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: theme === 'light' ? 'var(--bg-primary)' : 'var(--bg-tertiary)',
+          borderRadius: '8px'
+        }}>
+          ✨
+        </div>
+        <div>
+          <h3 style={{
+            ...titleStyle,
+            whiteSpace: 'nowrap',
+            fontSize: window.innerWidth < 768 ? '0.9rem' : '1rem'
+          }}>Best Practices</h3>
+          <p style={scoreStyle}>{averages.bestPractices}%</p>
+        </div>
+      </div>
     </div>
   );
 };
