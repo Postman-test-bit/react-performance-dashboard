@@ -1,23 +1,16 @@
-// src/charts/SEOChart.jsx
-import React, { useEffect, useRef } from "react";
-import Chart from "../utils/chartConfig";
-import FilterContainer from "../components/FilterContainer";
-import ChartContainer from "../components/ChartContainer";
+import React, { useState, useEffect } from "react";
+import MetricsCard from "../components/MetricsCard";
 
 const SEOChart = ({ data, allData, theme }) => {
-  const chartRef = useRef(null);
-  const chartInstance = useRef(null);
-  const [filteredData, setFilteredData] = React.useState(data);
+  const [sortConfig, setSortConfig] = useState({ key: 'score', order: 'asc' });
+  const [columnCount, setColumnCount] = useState(1);
   const [deviceFilter, setDeviceFilter] = React.useState("All");
   const [seoFilter, setSeoFilter] = React.useState("All");
 
-  const deviceTypes = [...new Set(allData.map((d) => d.device))];
+  // Process data outside of hooks to avoid dependencies
+  const processData = () => {
+    if (!data || data.length === 0) return [];
 
-  useEffect(() => {
-    applyFilters();
-  }, [deviceFilter, seoFilter, data]);
-
-  const applyFilters = () => {
     let filtered = [...data];
 
     if (deviceFilter !== "All") {
@@ -32,149 +25,198 @@ const SEOChart = ({ data, allData, theme }) => {
       );
     }
 
-    setFilteredData(filtered);
+    // Group data by scenario
+    const grouped = filtered.reduce((acc, item) => {
+      const key = item.scenario;
+      if (!acc[key]) acc[key] = [];
+      acc[key].push(item);
+      return acc;
+    }, {});
+
+    // Process and sort scenarios
+    return Object.entries(grouped).map(([scenario, entries]) => {
+      const sorted = entries
+        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+        .slice(0, 3)
+        .reverse();
+
+      const scores = sorted.map(item => parseFloat(item.seo_metrics) || 0);
+      const currentScore = scores[scores.length - 1];
+      const trend = currentScore - scores[0];
+
+      return {
+        scenario,
+        entries: sorted,
+        currentScore,
+        trend
+      };
+    }).sort((a, b) => {
+      const { key, order } = sortConfig;
+      const multiplier = order === 'asc' ? 1 : -1;
+      
+      if (key === 'score') {
+        return (a.currentScore - b.currentScore) * multiplier;
+      } else {
+        return (a.trend - b.trend) * multiplier;
+      }
+    });
+  };
+
+  const processedScenarios = processData();
+
+  // Update column count based on screen width and data length
+  const getColumnCount = () => {
+    if (typeof window === 'undefined') return 1;
+    if (window.innerWidth < 768) return 1;  // Mobile
+    if (window.innerWidth < 1200) return 2; // Tablet
+    return processedScenarios.length <= 4 ? 1 : 
+           processedScenarios.length <= 9 ? 2 : 3; // Desktop
   };
 
   useEffect(() => {
-    if (filteredData.length === 0 || !chartRef.current) return;
-
-    if (chartInstance.current) {
-      chartInstance.current.destroy();
-    }
-
-    const sortedData = [...filteredData].sort(
-      (a, b) => new Date(b.created_at) - new Date(a.created_at)
-    );
-
-    const latestTests = {};
-    const latestTestsTooltip = {};
-
-    sortedData.forEach((d) => {
-      if (!latestTests[d.scenario]) latestTests[d.scenario] = [];
-      if (latestTests[d.scenario].length < 3) latestTests[d.scenario].push(d);
-    });
-
-    allData.forEach((d) => {
-      if (!latestTestsTooltip[d.scenario]) latestTestsTooltip[d.scenario] = [];
-      if (latestTestsTooltip[d.scenario].length < 3)
-        latestTestsTooltip[d.scenario].push(d);
-    });
-
-    const testNames = Object.keys(latestTests);
-    const barData = testNames.map((test) => latestTests[test][0].seo_metrics);
-
-    const tooltipData = testNames.map((test) =>
-      latestTestsTooltip[test]
-        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-        .map((run) => ({
-          date: new Date(run.created_at).toLocaleDateString(),
-          score: run.seo_metrics,
-        }))
-    );
-
-    const barColors = barData.map((score) => {
-      if (score >= 80) return "rgb(0, 190, 0)";
-      if (score >= 60 && score <= 79) return "rgba(255, 159, 64, 0.8)";
-      return "rgb(190, 0, 0)";
-    });
-
-    const ctx = chartRef.current.getContext("2d");
-
-    chartInstance.current = new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: testNames,
-        datasets: [
-          {
-            label: "Latest SEO",
-            data: barData,
-            backgroundColor: barColors,
-            borderColor: barColors.map((color) => color.replace("0.8", "1")),
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        indexAxis: "y",
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            type: "linear",
-            beginAtZero: true,
-            max: 100,
-          },
-          y: {
-            type: "category",
-          },
-        },
-        plugins: {
-          tooltip: {
-            enabled: true,
-            callbacks: {
-              title: (context) => context[0].label,
-              label: (context) => {
-                const runs = tooltipData[context.dataIndex];
-                return runs.map(
-                  (run, index) => `Run ${index + 1} (${run.date}): ${run.score}`
-                );
-              },
-            },
-            backgroundColor: theme === "dark" ? "#333" : "#fff",
-            titleColor: theme === "dark" ? "#fff" : "#333",
-            bodyColor: theme === "dark" ? "#fff" : "#333",
-            borderColor: "#6a11cb",
-            borderWidth: 1,
-          },
-          legend: { display: false },
-          title: {
-            display: true,
-            text: "SEO for Last 3 Runs",
-            color: theme === "dark" ? "#fff" : "#333",
-          },
-          datalabels: {
-            anchor: "end",
-            align: (context) =>
-              context.dataset.data[context.dataIndex] >= 95 ? "start" : "end",
-            color: (context) => {
-              if (context.raw >= 90) return "#000";
-              return theme === "dark" ? "#fff" : "#333";
-            },
-            font: { weight: "bold", size: 14 },
-            formatter: (value) => value,
-          },
-        },
-      },
-    });
-
-    return () => {
-      if (chartInstance.current) {
-        chartInstance.current.destroy();
-      }
+    const handleResize = () => {
+      setColumnCount(getColumnCount());
     };
-  }, [filteredData, theme]);
 
-  const filters = (
-    <FilterContainer
-      deviceTypes={deviceTypes}
-      selectedDevice={deviceFilter}
-      onDeviceChange={setDeviceFilter}
-      selectedValue={seoFilter}
-      onValueChange={setSeoFilter}
-      valueOptions={[
-        { value: "All", label: "All" },
-        { value: "100-80", label: "100-80" },
-        { value: "79-60", label: "79-60" },
-        { value: "59-0", label: "59-0" },
-      ]}
-      valueLabel="Filter by SEO:"
-    />
+    handleResize(); // Initial column count setup
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [processedScenarios.length]);
+
+  if (!data || data.length === 0) {
+    return <div>No data available</div>;
+  }
+
+  const SortButton = ({ type, label, order }) => (
+    <button
+      onClick={() => setSortConfig({ key: type, order })}
+      style={{
+        background: sortConfig.key === type && sortConfig.order === order ? 
+          (theme === 'light' ? '#e2e8f0' : '#374151') : 'transparent',
+        border: 'none',
+        padding: '4px 8px',
+        borderRadius: '4px',
+        fontSize: '12px',
+        cursor: 'pointer',
+        color: theme === 'light' ? '#475569' : '#94a3b8',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '4px'
+      }}
+    >
+      {label} {order === 'asc' ? '↑' : '↓'}
+    </button>
   );
 
+  const deviceTypes = [...new Set(allData.map((d) => d.device))];
+
+  const scenariosPerColumn = Math.ceil(processedScenarios.length / columnCount);
+  const columns = Array.from({ length: columnCount }, (_, i) => 
+    processedScenarios.slice(i * scenariosPerColumn, (i + 1) * scenariosPerColumn)
+  );
+
+  const isSmallScreen = typeof window !== 'undefined' && window.innerWidth < 768;
+
   return (
-    <ChartContainer title="SEO for Last 3 Runs" filters={filters}>
-      <canvas id="seoChart" ref={chartRef}></canvas>
-    </ChartContainer>
+    <div style={{ 
+      padding: '20px',
+      color: theme === 'light' ? '#1e293b' : '#e2e8f0'
+    }}>
+      {/* Sort Controls */}
+      <div style={{
+        display: 'flex',
+        flexDirection: isSmallScreen ? 'column' : 'row',
+        gap: '8px',
+        marginBottom: '16px',
+        justifyContent: 'flex-end'
+      }}>
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: isSmallScreen ? 'column' : 'row',
+          alignItems: isSmallScreen ? 'stretch' : 'center',
+          gap: '8px',
+          backgroundColor: theme === 'light' ? 'white' : '#1f2937',
+          padding: '8px',
+          borderRadius: '6px',
+          boxShadow: theme === 'light' ? 
+            '0 1px 2px rgba(0,0,0,0.05)' : 
+            '0 1px 2px rgba(0,0,0,0.3)'
+        }}>
+          <span style={{ 
+            fontSize: '12px', 
+            color: theme === 'light' ? '#64748b' : '#94a3b8',
+            marginBottom: isSmallScreen ? '4px' : '0'
+          }}>
+            Sort by:
+          </span>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isSmallScreen ? '1fr 1fr' : 'auto auto auto auto',
+            gap: '4px'
+          }}>
+            <SortButton type="score" label="Lowest Score" order="asc" />
+            <SortButton type="score" label="Highest Score" order="desc" />
+            <SortButton type="trend" label="Most Declining" order="asc" />
+            <SortButton type="trend" label="Most Improving" order="desc" />
+          </div>
+        </div>
+      </div>
+
+      <div style={{ 
+        display: 'grid',
+        gridTemplateColumns: `repeat(${columnCount}, 1fr)`,
+        gap: isSmallScreen ? '12px' : '20px',
+        maxWidth: '100%',
+        margin: '0 auto'
+      }}>
+        {columns.map((columnScenarios, columnIndex) => (
+          <div key={columnIndex} style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1px',
+            backgroundColor: theme === 'light' ? '#e2e8f0' : '#374151'
+          }}>
+            {/* Header */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: isSmallScreen ? 
+                'minmax(0, 1fr) auto' : 
+                '3fr 80px 120px',
+              gap: isSmallScreen ? '8px' : '12px',
+              padding: isSmallScreen ? '8px 12px' : '12px 16px',
+              backgroundColor: theme === 'light' ? '#f8fafc' : '#111827',
+              borderBottom: `1px solid ${theme === 'light' ? '#e2e8f0' : '#374151'}`,
+              fontWeight: '600',
+              fontSize: '13px'
+            }}>
+              {isSmallScreen ? (
+                <div>Page</div>
+              ) : (
+                <>
+                  <div>Page</div>
+                  <div style={{ textAlign: 'center' }}>Latest Score</div>
+                  <div style={{ textAlign: 'center' }}>Trend</div>
+                </>
+              )}
+            </div>
+
+            {/* Rows */}
+            {columnScenarios.map((scenarioData) => (
+              <MetricsCard
+                key={scenarioData.scenario}
+                scenario={scenarioData.scenario}
+                currentScore={scenarioData.currentScore}
+                trend={scenarioData.trend}
+                entries={scenarioData.entries}
+                theme={theme}
+                metricType="seo_metrics"
+                isSmallScreen={isSmallScreen}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

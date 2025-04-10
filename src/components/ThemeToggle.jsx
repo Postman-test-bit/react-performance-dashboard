@@ -3,9 +3,13 @@ import { FaMoon, FaSun } from "react-icons/fa";
 
 const ThemeToggle = ({ toggleTheme, theme }) => {
   return (
-    <div className="theme-toggle" onClick={toggleTheme}>
-      {theme === "dark" ? <FaSun /> : <FaMoon />}
-    </div>
+    <button
+      onClick={toggleTheme}
+      className="theme-toggle"
+      aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+    >
+      {theme === "light" ? <FaMoon size={24} /> : <FaSun size={24} />}
+    </button>
   );
 };
 

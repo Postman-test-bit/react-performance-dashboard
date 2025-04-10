@@ -1,56 +1,156 @@
-import React from 'react';
+import React from "react";
 
-const Pagination = ({ totalPages, currentPage, setCurrentPage }) => {
-  const maxVisiblePages = 5; // Number of visible pages around the current page
-  const ellipsisThreshold = 2; // Show ellipsis if pages are skipped
+const Pagination = ({ totalPages, currentPage, setCurrentPage, theme }) => {
+  const maxVisiblePages = 5;
+  
+  const getVisiblePages = () => {
+    if (totalPages <= maxVisiblePages) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
 
-  // Function to create a pagination button
-  const createPageButton = (page, isActive = false) => (
-    <button
-      key={page}
-      className={`pagination-button ${isActive ? 'active' : ''}`}
-      onClick={() => setCurrentPage(page)}
-    >
-      {page}
-    </button>
+    let start = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
+    let end = start + maxVisiblePages - 1;
+
+    if (end > totalPages) {
+      end = totalPages;
+      start = Math.max(end - maxVisiblePages + 1, 1);
+    }
+
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+  };
+
+  const buttonStyle = {
+    padding: '8px',
+    margin: '0 2px',
+    borderRadius: '6px',
+    border: '1px solid var(--border-color)',
+    backgroundColor: 'var(--bg-secondary)',
+    color: 'var(--text-primary)',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    minWidth: '36px',
+    height: '36px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '14px',
+    ':hover': {
+      backgroundColor: 'var(--hover-bg)'
+    }
+  };
+
+  const activeButtonStyle = {
+    ...buttonStyle,
+    backgroundColor: '#2563eb',
+    color: '#ffffff',
+    borderColor: '#2563eb'
+  };
+
+  const visiblePages = getVisiblePages();
+
+  // Determine if we need to show First/Last buttons
+  const showFirstLast = totalPages > maxVisiblePages;
+
+  return (
+    <div style={{ 
+      display: 'flex', 
+      flexWrap: 'wrap',
+      gap: '4px', 
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+      marginTop: '20px',
+      padding: '0 8px'
+    }}>
+      {/* First/Prev buttons wrapper */}
+      <div style={{ display: 'flex', gap: '4px' }}>
+        {showFirstLast && (
+          <button
+            onClick={() => setCurrentPage(1)}
+            disabled={currentPage === 1}
+            style={{
+              ...buttonStyle,
+              opacity: currentPage === 1 ? 0.5 : 1,
+              cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+              display: 'none',
+              '@media (min-width: 480px)': {
+                display: 'flex'
+              }
+            }}
+            aria-label="First page"
+          >
+            ⟪
+          </button>
+        )}
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          style={{
+            ...buttonStyle,
+            opacity: currentPage === 1 ? 0.5 : 1,
+            cursor: currentPage === 1 ? 'not-allowed' : 'pointer'
+          }}
+          aria-label="Previous page"
+        >
+          ⟨
+        </button>
+      </div>
+
+      {/* Page numbers */}
+      <div style={{ 
+        display: 'flex', 
+        gap: '4px',
+        flexWrap: 'wrap',
+        justifyContent: 'center'
+      }}>
+        {visiblePages.map((number) => (
+          <button
+            key={number}
+            onClick={() => setCurrentPage(number)}
+            style={currentPage === number ? activeButtonStyle : buttonStyle}
+            aria-label={`Page ${number}`}
+            aria-current={currentPage === number ? 'page' : undefined}
+          >
+            {number}
+          </button>
+        ))}
+      </div>
+
+      {/* Next/Last buttons wrapper */}
+      <div style={{ display: 'flex', gap: '4px' }}>
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          style={{
+            ...buttonStyle,
+            opacity: currentPage === totalPages ? 0.5 : 1,
+            cursor: currentPage === totalPages ? 'not-allowed' : 'pointer'
+          }}
+          aria-label="Next page"
+        >
+          ⟩
+        </button>
+        {showFirstLast && (
+          <button
+            onClick={() => setCurrentPage(totalPages)}
+            disabled={currentPage === totalPages}
+            style={{
+              ...buttonStyle,
+              opacity: currentPage === totalPages ? 0.5 : 1,
+              cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+              display: 'none',
+              '@media (min-width: 480px)': {
+                display: 'flex'
+              }
+            }}
+            aria-label="Last page"
+          >
+            ⟫
+          </button>
+        )}
+      </div>
+    </div>
   );
-
-  const renderEllipsis = (key) => (
-    <span key={`ellipsis-${key}`}>...</span>
-  );
-
-  const paginationItems = [];
-
-  // Always show the first page
-  paginationItems.push(createPageButton(1, currentPage === 1));
-
-  // Show ellipsis if current page is far from the first page
-  if (currentPage > ellipsisThreshold + 1) {
-    paginationItems.push(renderEllipsis('left'));
-  }
-
-  // Show pages around the current page
-  const startPage = Math.max(2, currentPage - Math.floor(maxVisiblePages / 2));
-  const endPage = Math.min(
-    totalPages - 1,
-    currentPage + Math.floor(maxVisiblePages / 2)
-  );
-
-  for (let i = startPage; i <= endPage; i++) {
-    paginationItems.push(createPageButton(i, i === currentPage));
-  }
-
-  // Show ellipsis if current page is far from the last page
-  if (currentPage < totalPages - ellipsisThreshold) {
-    paginationItems.push(renderEllipsis('right'));
-  }
-
-  // Always show the last page if there's more than one page
-  if (totalPages > 1) {
-    paginationItems.push(createPageButton(totalPages, currentPage === totalPages));
-  }
-
-  return <div className="pagination">{paginationItems}</div>;
 };
 
 export default Pagination;
