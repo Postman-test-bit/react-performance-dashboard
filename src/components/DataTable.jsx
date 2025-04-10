@@ -149,6 +149,8 @@ const DataTable = ({ data, latestData, theme }) => {
                 <th style={tableHeaderStyle}>SEO</th>
                 <th style={tableHeaderStyle}>Best Practice</th>
                 <th style={tableHeaderStyle}>Date</th>
+                <th style={tableHeaderStyle}>URL</th>
+                <th style={tableHeaderStyle}>Brand</th>
               </tr>
             </thead>
             <tbody>
@@ -177,6 +179,8 @@ const DataTable = ({ data, latestData, theme }) => {
                   <td style={tableCellStyle}>{d.seo_metrics}</td>
                   <td style={tableCellStyle}>{d.best_practice_metrics}</td>
                   <td style={tableCellStyle}>{formatDate(d.created_at)}</td>
+                  <td style={tableCellStyle}>{d.url}</td>
+                  <td style={tableCellStyle}>{d.brand}</td>
                 </tr>
               ))}
             </tbody>
