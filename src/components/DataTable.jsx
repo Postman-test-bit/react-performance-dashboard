@@ -1,6 +1,56 @@
 import React, { useState } from "react";
 import Pagination from "./Pagination";
 
+function generateS3PerformanceReportUrl({
+  bucketName = "fusion-networks-qa-dev",
+  region = "eu-west-2",
+  testName = "",
+}) {
+  if (!testName || typeof testName !== "string") {
+    console.error("Invalid testName provided:", testName);
+    return "#";
+  }
+
+  // Define path mappings
+  const pathConfig = {
+    dashboard: {
+      prefixes: [
+        "Contact Us",
+        "Discover",
+        "Meetings",
+        "Home",
+        "Members",
+        "Organization",
+        "Support",
+        "Personal Information",
+        "Work Details",
+      ],
+      path: "performance-reports/playwright-performance-report/dashboard",
+    },
+    onboarding: {
+      path: "performance-reports/playwright-performance-report/onboarding-flow",
+    },
+  };
+
+  // Determine base path
+  const isDashboard = pathConfig.dashboard.prefixes.some((prefix) =>
+    testName.startsWith(prefix)
+  );
+  const basePath = isDashboard
+    ? pathConfig.dashboard.path
+    : pathConfig.onboarding.path;
+
+  // Determine device type
+  const deviceType = testName.includes("Mobile") ? "Mobile" : "Desktop";
+
+  // Sanitize filename (optimized single pass)
+  const sanitizedTestName = testName.replace(/[^a-zA-Z0-9+_-]/g, (match) =>
+    match === " " ? "+" : ""
+  );
+
+  return `https://${bucketName}.s3.${region}.amazonaws.com/${basePath}/${deviceType}/${sanitizedTestName}.html`;
+}
+
 const DataTable = ({ data, latestData, theme }) => {
   const [showLatestRunOnly, setShowLatestRunOnly] = useState(false);
   const [deviceFilter, setDeviceFilter] = useState("All");
@@ -8,7 +58,6 @@ const DataTable = ({ data, latestData, theme }) => {
   const rowsPerPage = 10;
 
   const deviceTypes = [...new Set(data.map((d) => d.device))];
-
   let filteredData = showLatestRunOnly ? latestData : data;
 
   if (deviceFilter !== "All") {
@@ -77,22 +126,12 @@ const DataTable = ({ data, latestData, theme }) => {
                 setShowLatestRunOnly(!showLatestRunOnly);
                 setCurrentPage(1);
               }}
-              style={{
-                width: "16px",
-                height: "16px",
-                cursor: "pointer",
-              }}
+              style={{ width: "16px", height: "16px", cursor: "pointer" }}
             />
             Latest Run Result
           </label>
 
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <label
               htmlFor="tableDeviceFilter"
               style={{ color: "var(--text-secondary)" }}
@@ -151,6 +190,9 @@ const DataTable = ({ data, latestData, theme }) => {
                 <th style={tableHeaderStyle}>Date</th>
                 <th style={tableHeaderStyle}>URL</th>
                 <th style={tableHeaderStyle}>Brand</th>
+                {showLatestRunOnly && (
+                  <th style={tableHeaderStyle}>Report Link</th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -181,6 +223,20 @@ const DataTable = ({ data, latestData, theme }) => {
                   <td style={tableCellStyle}>{formatDate(d.created_at)}</td>
                   <td style={tableCellStyle}>{d.url}</td>
                   <td style={tableCellStyle}>{d.brand}</td>
+                  {showLatestRunOnly && (
+                    <td style={tableCellStyle}>
+                      <a
+                        href={generateS3PerformanceReportUrl({
+                          testName: d.scenario,
+                        })}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: "var(--link-color)" }}
+                      >
+                        View Report
+                      </a>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
