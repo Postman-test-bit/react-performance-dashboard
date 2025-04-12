@@ -11,7 +11,6 @@ function generateS3PerformanceReportUrl({
     return "#";
   }
 
-  // Define path mappings
   const pathConfig = {
     dashboard: {
       prefixes: [
@@ -32,7 +31,6 @@ function generateS3PerformanceReportUrl({
     },
   };
 
-  // Determine base path
   const isDashboard = pathConfig.dashboard.prefixes.some((prefix) =>
     testName.startsWith(prefix)
   );
@@ -40,10 +38,8 @@ function generateS3PerformanceReportUrl({
     ? pathConfig.dashboard.path
     : pathConfig.onboarding.path;
 
-  // Determine device type
   const deviceType = testName.includes("Mobile") ? "Mobile" : "Desktop";
 
-  // Sanitize filename (optimized single pass)
   const sanitizedTestName = testName.replace(/[^a-zA-Z0-9+_-]/g, (match) =>
     match === " " ? "+" : ""
   );
@@ -54,14 +50,21 @@ function generateS3PerformanceReportUrl({
 const DataTable = ({ data, latestData, theme }) => {
   const [showLatestRunOnly, setShowLatestRunOnly] = useState(false);
   const [deviceFilter, setDeviceFilter] = useState("All");
+  const [brandFilter, setBrandFilter] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
 
   const deviceTypes = [...new Set(data.map((d) => d.device))];
+  const brandTypes = [...new Set(data.map((d) => d.brand))];
+
   let filteredData = showLatestRunOnly ? latestData : data;
 
   if (deviceFilter !== "All") {
     filteredData = filteredData.filter((d) => d.device === deviceFilter);
+  }
+
+  if (brandFilter !== "All") {
+    filteredData = filteredData.filter((d) => d.brand === brandFilter);
   }
 
   const totalPages = Math.ceil(filteredData.length / rowsPerPage);
@@ -108,6 +111,7 @@ const DataTable = ({ data, latestData, theme }) => {
             alignItems: "center",
             gap: "24px",
             marginBottom: "20px",
+            flexWrap: "wrap",
           }}
         >
           <label
@@ -154,10 +158,42 @@ const DataTable = ({ data, latestData, theme }) => {
                 cursor: "pointer",
               }}
             >
-              <option value="All">All</option>
+              <option value="All">All Devices</option>
               {deviceTypes.map((device) => (
                 <option key={device} value={device}>
                   {device}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <label
+              htmlFor="tableBrandFilter"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              Filter by Brand:
+            </label>
+            <select
+              id="tableBrandFilter"
+              value={brandFilter}
+              onChange={(e) => {
+                setBrandFilter(e.target.value);
+                setCurrentPage(1);
+              }}
+              style={{
+                padding: "6px 12px",
+                borderRadius: "6px",
+                border: "1px solid var(--border-color)",
+                backgroundColor: "var(--bg-secondary)",
+                color: "var(--text-primary)",
+                cursor: "pointer",
+              }}
+            >
+              <option value="All">All Brands</option>
+              {brandTypes.map((brand) => (
+                <option key={brand} value={brand}>
+                  {brand}
                 </option>
               ))}
             </select>
@@ -274,16 +310,16 @@ const DataTable = ({ data, latestData, theme }) => {
 };
 
 const tableHeaderStyle = {
-  padding: '12px 16px',
-  textAlign: 'left',
-  fontWeight: '600',
-  whiteSpace: 'nowrap'
+  padding: "12px 16px",
+  textAlign: "left",
+  fontWeight: "600",
+  whiteSpace: "nowrap",
 };
 
 const tableCellStyle = {
-  padding: '12px 16px',
-  color: 'var(--text-primary)',
-  whiteSpace: 'nowrap'
+  padding: "12px 16px",
+  color: "var(--text-primary)",
+  whiteSpace: "nowrap",
 };
 
 export default DataTable;
