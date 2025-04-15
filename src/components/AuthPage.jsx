@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import backgroundImage from "../image.jpg";
 const userName = process.env.REACT_APP_ADMIN_USER;
 const passWord = process.env.REACT_APP_ADMIN_PASS;
@@ -9,6 +9,9 @@ const AuthPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/app";
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -16,7 +19,7 @@ const AuthPage = () => {
     if (username === `${userName}` && password === `${passWord}`) {
       setError("");
       sessionStorage.setItem("isAuthenticated", "true");
-      navigate("/app");
+      navigate(from, { replace: true });
     } else {
       setError("Invalid username or password ❌");
     }
