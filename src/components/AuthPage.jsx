@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from "../image.jpg";
+const userName = process.env.REACT_APP_ADMIN_USER;
+const passWord = process.env.REACT_APP_ADMIN_PASS;
 
 const AuthPage = () => {
   const [username, setUsername] = useState("");
@@ -11,7 +13,7 @@ const AuthPage = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    if (username === "networks" && password === "PEImedia@QA") {
+    if (username === `${userName}` && password === `${passWord}`) {
       setError("");
       sessionStorage.setItem("isAuthenticated", "true");
       navigate("/app");
