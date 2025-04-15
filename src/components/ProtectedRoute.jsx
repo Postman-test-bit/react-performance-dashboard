@@ -1,10 +1,15 @@
 import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 const ProtectedRoute = () => {
-  const isAuthenticated = sessionStorage.getItem("isAuthenticated") === "true"; // Changed from localStorage
+  const location = useLocation();
+  const isAuthenticated = sessionStorage.getItem("isAuthenticated") === "true";
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/" replace />;
+  return isAuthenticated ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/" state={{ from: location }} replace />
+  );
 };
 
 export default ProtectedRoute;
