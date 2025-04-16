@@ -15,7 +15,9 @@ function generateS3PerformanceReportUrl({
     dashboard: {
       prefixes: [
         "Contact Us",
-        "Discover",
+        "Global Discover",
+        "IR Discover",
+        "PDI Discover",
         "Meetings",
         "Home",
         "Members",
