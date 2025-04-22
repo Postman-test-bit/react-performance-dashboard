@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import backgroundImage from "../image.jpg";
-const userName = process.env.REACT_APP_ADMIN_USER;
-const passWord = process.env.REACT_APP_ADMIN_PASS;
 
 const AuthPage = () => {
   const [username, setUsername] = useState("");
@@ -10,13 +8,22 @@ const AuthPage = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const isAuthenticated = sessionStorage.getItem("isAuthenticated") === "true";
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
-  const from = location.state?.from?.pathname || "/app";
+  const from = location.state?.from?.pathname || "/";
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    if (username === `${userName}` && password === `${passWord}`) {
+    if (
+      username === `${process.env.REACT_APP_ADMIN_USER}` &&
+      password === `${process.env.REACT_APP_ADMIN_PASS}`
+    ) {
       setError("");
       sessionStorage.setItem("isAuthenticated", "true");
       navigate(from, { replace: true });
