@@ -6,9 +6,11 @@ const AuthPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // 👈 NEW
   const navigate = useNavigate();
   const location = useLocation();
   const isAuthenticated = sessionStorage.getItem("isAuthenticated") === "true";
+
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");
@@ -19,6 +21,7 @@ const AuthPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true); // 👈 Start loading
 
     try {
       const response = await fetch(
@@ -44,6 +47,8 @@ const AuthPage = () => {
     } catch (error) {
       console.error("Login error:", error);
       setError("Something went wrong. Please try again later.");
+    } finally {
+      setLoading(false); // 👈 Stop loading
     }
   };
 
@@ -69,6 +74,7 @@ const AuthPage = () => {
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter your username"
               required
+              disabled={loading} // 👈 Disable during loading
             />
           </div>
 
@@ -81,13 +87,14 @@ const AuthPage = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               required
+              disabled={loading} // 👈 Disable during loading
             />
           </div>
 
           {error && <p className="auth-error">{error}</p>}
 
-          <button type="submit" className="auth-button">
-            Login
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? "Verifying..." : "Login"} {/* 👈 Show dynamic text */}
           </button>
         </form>
       </div>
