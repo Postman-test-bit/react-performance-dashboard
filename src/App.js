@@ -13,9 +13,9 @@ function App() {
     <Router>
       <div>
         <Routes>
-          <Route path="/" element={<AuthPage />} />
+          <Route path="/login" element={<AuthPage />} />
           <Route element={<ProtectedRoute />}>
-            <Route path="/app" element={<AppPage />} />
+            <Route path="/" element={<AppPage />} />
           </Route>
           {/* Optional: Catch-all route for 404 */}
           <Route path="*" element={<NotFoundPage />} />
