@@ -17,18 +17,33 @@ const AuthPage = () => {
 
   const from = location.state?.from?.pathname || "/";
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (
-      username === `${process.env.REACT_APP_ADMIN_USER}` &&
-      password === `${process.env.REACT_APP_ADMIN_PASS}`
-    ) {
-      setError("");
-      sessionStorage.setItem("isAuthenticated", "true");
-      navigate(from, { replace: true });
-    } else {
-      setError("Invalid username or password ❌");
+    try {
+      const response = await fetch(
+        "https://test-dashboard-66zd.onrender.com/api/verifycredentials",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok && data.isAuthenticated) {
+        setError("");
+        sessionStorage.setItem("isAuthenticated", "true");
+        navigate(from, { replace: true });
+      } else {
+        setError(data.error || "Invalid username or password ❌");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setError("Something went wrong. Please try again later.");
     }
   };
 
