@@ -6,6 +6,8 @@ import GlobalFilters from "./GlobalFilters";
 import DateFilter from "./DateFilter";
 import KPICards from "./KPICards";
 import Loading from "./Loading";
+import SidebarMenu from "./SidebarMenu";
+
 function AppPage() {
   const [allData, setAllData] = useState([]);
   const [latestData, setLatestData] = useState([]);
@@ -18,6 +20,7 @@ function AppPage() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [initialLoad, setInitialLoad] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Theme handling
   useEffect(() => {
@@ -196,7 +199,14 @@ function AppPage() {
   return (
     <div className="app">
       <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
-
+      <SidebarMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+      <button
+        className="hamburger-button"
+        onClick={() => setIsMenuOpen(true)}
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
       <div
         style={{
           padding: "24px",

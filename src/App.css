@@ -989,3 +989,143 @@ body.light-mode canvas {
     font-size: 1.25rem;
   }
 }
+
+
+ /* Visual Dashboard */
+
+ .App {
+  padding: 20px;
+}
+
+.dashboard h1 {
+  text-align: center;
+}
+
+.test-card {
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr 2fr;
+  padding: 0.75rem 1rem;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  text-align-last: center;
+}
+
+.test-card button {
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.modal__window {
+  background: white;
+  padding: 20px;
+  /* width: 80%; */
+  max-width: 100%;
+  border-radius: 8px;
+  position: relative;
+}
+
+.modal__title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.attachment__media-container {
+  text-align: center;
+}
+
+.attachment__media {
+  max-width: 100%;
+  max-height: 500px;
+}
+
+.modal__close {
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  margin-left: auto;
+  transition: color 0.2s ease;
+}
+.modal__close:hover {
+  color: var(--primary-color);
+}
+
+.fa {
+  display: inline-block;
+  font: normal normal normal 14px / 1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.pie-chart-container {
+  background-color: var(--bg-secondary);
+}
+
+/* === Global Reset & Typography === */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #1e1e2e;
+  color: #fff;
+  transition: background-color 0.3s, color 0.3s;
+  margin: 0 5%;
+}
+
+.column-labels {
+  background: var(--bg-secondary);
+  border-radius: 0.75rem;
+}
+
+body.light-mode .column-labels {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .filters-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .search-wrapper,
+  .device-select-wrapper,
+  .brand-select-wrapper,
+  .status-select-wrapper {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  select, input {
+    width: 100%;
+  }
+}
