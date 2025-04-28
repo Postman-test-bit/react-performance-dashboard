@@ -10,12 +10,14 @@ import Loading from "./Loading.jsx";
 import "../App.css";
 import logoImage from "../image.png";
 
-const supabaseUrl =
-  "https://ocpaxmghzmfbuhxzxzae.supabase.co/storage/v1/object/public/visual-dashboard-json/merged-results.json";
+const url =
+  "https://fusion-networks-qa-dev.s3.eu-west-2.amazonaws.com/merged-results.json";
 
 async function fetchData() {
   try {
-    const response = await fetch(supabaseUrl);
+    const response = await fetch(
+      "https://test-dashboard-66zd.onrender.com/api/proxy/merged-results"
+    );
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
     const jsonData = await response.json();
@@ -253,11 +255,13 @@ const VisualDashboard = () => {
                 style={{ padding: "8px 12px", borderRadius: "5px" }}
               >
                 <option value="">All Brands</option>
-                {[...new Set(testData.map((t) => t.brand))].map((brand) => (
-                  <option key={brand} value={brand}>
-                    {brand}
-                  </option>
-                ))}
+                {[...new Set(testData.map((t) => t.brand).filter(Boolean))].map(
+                  (brand) => (
+                    <option key={brand} value={brand}>
+                      {brand}
+                    </option>
+                  )
+                )}
               </select>
             </div>
 
@@ -300,6 +304,7 @@ const VisualDashboard = () => {
             style={{ marginTop: "2rem", fontWeight: 600 }}
           >
             <span>Test Name</span>
+            <span>Brand</span>
             <span>Device</span>
             <span>Difference Image</span>
             <span>Test Status</span>

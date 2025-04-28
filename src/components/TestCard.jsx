@@ -12,6 +12,7 @@ const TestCard = ({ test, onViewImage }) => {
   return (
     <div className="test-card">
       <div>{test.name}</div>
+      <div>{test.brand}</div>
       <div>{test.device}</div>
       <div>
         {test.status === "failed" && (
