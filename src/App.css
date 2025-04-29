@@ -1026,8 +1026,11 @@ body.light-mode canvas {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: var(--text-primary);
+  color: #222 !important;
   margin-bottom: 1rem;
+}
+.modal__title h2 {
+  color: #222 !important;
 }
 
 .attachment__media-container {
@@ -1040,7 +1043,7 @@ body.light-mode canvas {
 }
 
 .modal__close {
-  color: var(--text-primary);
+  color: #222 !important;
   cursor: pointer;
   font-size: 1.5rem;
   padding: 0.5rem;

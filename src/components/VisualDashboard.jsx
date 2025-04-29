@@ -1,6 +1,6 @@
 // src/components/VisualDashboard.jsx
 
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import TestCard from "./TestCard.jsx";
 import Modal from "./Modal.jsx";
 import ThemeToggle from "./ThemeToggle.jsx";
@@ -8,10 +8,7 @@ import SidebarMenu from "./SidebarMenu";
 import PieChart from "../charts/PieChart.jsx";
 import Loading from "./Loading.jsx";
 import "../App.css";
-import logoImage from "../image.png";
 
-const url =
-  "https://fusion-networks-qa-dev.s3.eu-west-2.amazonaws.com/merged-results.json";
 
 async function fetchData() {
   try {

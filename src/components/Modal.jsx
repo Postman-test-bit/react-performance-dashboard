@@ -3,12 +3,16 @@
 import React from "react";
 
 const Modal = ({ imageUrl, onClose }) => {
+  const handleOpenInNewTab = () => {
+    window.open(imageUrl, "_blank");
+  };
+
   return (
     <div className="modal">
       <div className="modal__background">
         <div className="modal__window">
           <h2 className="modal__title">
-            <span style={{ color: "var(--text-primary)" }}>Screenshot</span>
+            <span style={{ color: "#222" }}>Screenshot</span>
             <span
               className="modal__close"
               onClick={onClose}
@@ -34,6 +38,30 @@ const Modal = ({ imageUrl, onClose }) => {
                 />
               </div>
             </div>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              padding: "1rem",
+              borderTop: "1px solid var(--border-color)",
+            }}
+          >
+            <button
+              onClick={handleOpenInNewTab}
+              style={{
+                padding: "0.5rem 1rem",
+                backgroundColor: "var(--button-bg)",
+                color: "#222",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+                fontSize: "1rem",
+                transition: "background-color 0.2s ease",
+              }}
+            >
+              Open in New Tab
+            </button>
           </div>
         </div>
       </div>
