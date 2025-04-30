@@ -1065,6 +1065,11 @@ body.light-mode canvas {
 
 .pie-chart-container {
   background-color: var(--bg-secondary);
+  width: 100%;
+  display: contents;
+  justify-content: space-evenly;
+
+  
 }
 
 /* === Global Reset & Typography === */
