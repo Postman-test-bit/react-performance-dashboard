@@ -7,8 +7,9 @@ import ThemeToggle from "./ThemeToggle.jsx";
 import SidebarMenu from "./SidebarMenu";
 import PieChart from "../charts/PieChart.jsx";
 import Loading from "./Loading.jsx";
+import BrandTestCharts from "../charts/BrandTestCharts.jsx";
 import "../App.css";
-
+import "../charts/BrandChart.css";
 
 async function fetchData() {
   try {
@@ -193,6 +194,21 @@ const VisualDashboard = () => {
             onSliceClick={(status) => setStatusFilter(status)}
           />
 
+          {/* Brand Test Charts Section */}
+          <div className="brand-charts-section">
+            <h2
+              style={{
+                textAlign: "center",
+                color: "var(--text-primary)",
+                margin: "2rem 0 1rem",
+                padding: "0 1rem",
+              }}
+            >
+              Brand Test Analysis
+            </h2>
+            <BrandTestCharts data={testData} />
+          </div>
+
           <div
             className="filters-container"
             style={{
@@ -288,6 +304,10 @@ const VisualDashboard = () => {
                     padding: "0.5rem 1rem",
                     marginTop: "0.5rem",
                     backgroundColor: theme === "light" ? "#ef4444" : "#dc2626",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer",
                   }}
                 >
                   Clear All Filters
@@ -298,7 +318,14 @@ const VisualDashboard = () => {
 
           <div
             className="test-card column-labels"
-            style={{ marginTop: "2rem", fontWeight: 600 }}
+            style={{
+              marginTop: "2rem",
+              fontWeight: 600,
+              display: "grid",
+              padding: "0.5rem 1rem",
+              background: "var(--bg-secondary)",
+              borderBottom: "1px solid var(--border-color)",
+            }}
           >
             <span>Test Name</span>
             <span>Brand</span>
