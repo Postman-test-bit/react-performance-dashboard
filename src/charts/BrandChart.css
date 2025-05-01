@@ -1,0 +1,81 @@
+/* Brand Charts Section */
+.brand-charts-section {
+  margin: 2rem 0;
+  width: 100%;
+}
+
+/* Brand Charts Container - Mobile First Approach */
+.brand-charts-container {
+  display: grid;
+  gap: 20px;
+  padding: 0 1rem;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+/* Default for smallest screens (1 column) */
+.brand-charts-container {
+  grid-template-columns: 1fr;
+}
+
+/* 2 columns at 351px and up */
+@media (min-width: 351px) {
+  .brand-charts-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* 3 columns at 781px and up */
+@media (min-width: 781px) {
+  .brand-charts-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Optional: Maintain 3 columns up to 1280px if needed */
+@media (min-width: 1280px) {
+  .brand-charts-container {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1280px; /* Optional constraint */
+    margin: 0 auto; /* Optional centering */
+  }
+}
+
+.brand-chart {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+  min-width: 0; /* Ensures proper grid item shrinking */
+}
+
+/* Theme compatibility for charts */
+.brand-chart .highcharts-container {
+  font-family: inherit !important;
+}
+
+.brand-chart .highcharts-background {
+  fill: var(--bg-secondary);
+}
+
+.brand-chart .highcharts-title {
+  fill: var(--text-primary) !important;
+  color: var(--text-primary) !important;
+  font-size: 16px !important;
+}
+
+.brand-chart .highcharts-axis-title,
+.brand-chart .highcharts-axis-labels text {
+  fill: var(--text-secondary) !important;
+}
+
+.brand-chart .highcharts-grid-line {
+  stroke: var(--border-color);
+}
+
+/* Ensure charts resize properly */
+.brand-chart .highcharts-container,
+.brand-chart .highcharts-root {
+  width: 100% !important;
+}

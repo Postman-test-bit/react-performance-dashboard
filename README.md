@@ -1,99 +1,132 @@
-# Getting Started with Create React App
-```
-performance-dashboard-react/
-├── public/
-│   ├── index.html
-│   └── performance.png
-├── src/
-│   ├── components/
-│   │   ├── Header.jsx
-│   │   ├── MetricBox.jsx
-│   │   ├── ChartContainer.jsx
-│   │   ├── FilterContainer.jsx
-│   │   ├── DataTable.jsx
-│   │   ├── ThemeToggle.jsx
-│   │   └── Loading.jsx
-│   ├── charts/
-│   │   ├── PerformanceChart.jsx
-│   │   ├── SEOChart.jsx
-│   │   ├── AccessibilityChart.jsx
-│   │   ├── BestPracticeChart.jsx
-│   │   └── DeviceChart.jsx
-│   ├── styles/
-│   │   └── App.css
-│   ├── App.js
-│   ├── App.test.js
-│   ├── index.js
+# 📘 Report Dashboard – Technical & Functional Documentation  
+
+**Version**: `v1.0`  |  **Author**: *[QA Team]*  
+**App Modules**: Performance Dashboard · Visual Test Dashboard  
+**Goal**: Provide a single source of truth for front-end performance & visual regression reporting for QA and Product teams.
+
+## 📌 Introduction
+
+The Report Dashboard is a unified analytics platform built using React that enables teams to:
+
+- Track front-end performance metrics (Lighthouse-based) across pages, brands, and devices
+- Identify and explore visual regressions with screenshot diff previews
+- Provide a theme-aware, mobile-responsive, and filter-driven interface for non-technical users
+
+## 🧱 Folder Structure
+
+```bash
+src/
+├── charts/
+│   ├── AccessibilityChart.jsx
+│   ├── BestPracticeChart.jsx
+│   ├── BrandChart.css
+│   ├── BrandTestCharts.jsx
+│   ├── DeviceChart.jsx
+│   ├── PerformanceChart.jsx
+│   ├── PieChart.jsx
+│   └── SEOChart.jsx
+├── components/
+│   ├── AppPage.jsx
+│   ├── AuthPage.jsx
+│   ├── ChartContainer.jsx
+│   ├── DataTable.jsx
+│   ├── DateFilter.jsx
+│   ├── FilterContainer.jsx
+│   ├── GlobalFilters.jsx
+│   ├── GlobalSearch/
+│   ├── Header.jsx
+│   ├── KPIStats.jsx
+│   ├── KPITrend.jsx
+│   ├── KPIOverview.jsx
+│   ├── KPIGrid.jsx
+│   ├── KPIBar.jsx
+│   ├── KPICards.jsx
+│   ├── Loading.jsx
+│   ├── MetricBox.jsx
+│   ├── MetricsCard.jsx
+│   ├── MetricsContainer.jsx
+│   ├── Modal.jsx
+│   ├── NotFoundPage.jsx
+│   ├── Pagination.jsx
+│   ├── ProtectedRoute.jsx
+│   ├── SidebarMenu.jsx
+│   ├── SideBarMenu.css
+│   ├── TabsContainer.jsx
+│   ├── TestCard.jsx
+│   ├── ThemeToggle.jsx
+│   └── VisualDashboard.jsx
+├── styles/
+│   ├── App.css
+│   ├── index.css
+│   └── visual.css
+├── utils/
 │   └── utils.js
-├── package.json
-└── package-lock.json
+├── App.js
+├── index.js
+└── README.md
 ```
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🎨 Theming & Responsiveness
 
-## Available Scripts
+- Fully supports dark/light modes via a theme toggle
+- Uses var(--bg-color) and var(--text-color) across CSS
+- Charts, cards, and modals respond fluidly across devices
 
-In the project directory, you can run:
+## 📊 Module 1: Performance Dashboard
 
-### `npm start`
+### 🧠 Purpose
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Track Lighthouse test result data across brands, devices, and URLs.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 🔍 Key Functionalities
 
-### `npm test`
+- Global KPI Cards (Performance, SEO, etc.)
+- Search by page name
+- Filters by Brand, Device, Date
+- Tabbed views per metric type
+- Trend indicators
+- Full paginated test result table with report links
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🖼️ Module 2: Visual Test Dashboard
 
-### `npm run build`
+### 🧠 Purpose
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Analyze screenshot comparison results.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 🔍 Key Functionalities
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Pie chart showing pass/fail ratio
+- Brand-wise bar charts
+- Filters by test name, device, brand, status
+- Test results table with screenshot modal previews
 
-### `npm run eject`
+## ⚙️ Internal Logic Highlights
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Theme-aware charts via Highcharts
+- Auto-merged JSON inputs for performance/visual data
+- Generic table/chart components for reuse
+- Real-time data filtering and pagination
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🧪 Testing Strategy
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- React Testing Library unit tests
+- Manual QA on responsiveness
+- JSON validity checks
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🧭 Future Enhancements
 
-## Learn More
+- Multi-project support
+- Real-time auto-refresh
+- Slack alerts on failure
+- PDF export support
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📎 Appendix
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 🔖 Tag Definitions
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| Tag | Meaning |
+|-----|---------|
+| passed | No visual mismatch detected |
+| failed | Significant mismatch |
+| IR/PDI/GLOBAL | Brand |
+| desktop/mobile | Device viewport |
