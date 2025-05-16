@@ -12,60 +12,9 @@ The Report Dashboard is a unified analytics platform built using React that enab
 - Identify and explore visual regressions with screenshot diff previews
 - Provide a theme-aware, mobile-responsive, and filter-driven interface for non-technical users
 
-
 ## 🧱 Folder Structure
 
-```bash
-src/
-├── charts/
-│   ├── AccessibilityChart.jsx
-│   ├── BestPracticeChart.jsx
-│   ├── BrandChart.css
-│   ├── BrandTestCharts.jsx
-│   ├── DeviceChart.jsx
-│   ├── PerformanceChart.jsx
-│   ├── PieChart.jsx
-│   └── SEOChart.jsx
-├── components/
-│   ├── AppPage.jsx
-│   ├── AuthPage.jsx
-│   ├── ChartContainer.jsx
-│   ├── DataTable.jsx
-│   ├── DateFilter.jsx
-│   ├── FilterContainer.jsx
-│   ├── GlobalFilters.jsx
-│   ├── GlobalSearch/
-│   ├── Header.jsx
-│   ├── KPIStats.jsx
-│   ├── KPITrend.jsx
-│   ├── KPIOverview.jsx
-│   ├── KPIGrid.jsx
-│   ├── KPIBar.jsx
-│   ├── KPICards.jsx
-│   ├── Loading.jsx
-│   ├── MetricBox.jsx
-│   ├── MetricsCard.jsx
-│   ├── MetricsContainer.jsx
-│   ├── Modal.jsx
-│   ├── NotFoundPage.jsx
-│   ├── Pagination.jsx
-│   ├── ProtectedRoute.jsx
-│   ├── SidebarMenu.jsx
-│   ├── SideBarMenu.css
-│   ├── TabsContainer.jsx
-│   ├── TestCard.jsx
-│   ├── ThemeToggle.jsx
-│   └── VisualDashboard.jsx
-├── styles/
-│   ├── App.css
-│   ├── index.css
-│   └── visual.css
-├── utils/
-│   └── utils.js
-├── App.js
-├── index.js
-└── README.md
-```
+![Folder Structure](image.png)
 
 ## 🎨 Theming & Responsiveness
 
@@ -116,13 +65,13 @@ Analyze screenshot comparison results.
 
 ## Images
 
-- [Performance Dashboard - Desktop Mode - Dark Mode](https://i.postimg.cc/1RFkbpwR/networks-performance-test-dashboard-netlify-app.png)
-- [Performance Dashboard - Desktop Mode - Light Mode](https://i.postimg.cc/v89mXxmf/networks-performance-test-dashboard-netlify-app-4.png)
-- [Sidebar - Desktop Mode - Dark Mode](https://i.postimg.cc/gj31RWmL/networks-performance-test-dashboard-netlify-app-1.png)
-- [Sidebar - Desktop Mode - Light Mode](https://i.postimg.cc/gj31RWmL/networks-performance-test-dashboard-netlify-app-5.png)
-- [Visual Dashboard - Desktop Mode - Dark Mode](https://i.postimg.cc/Fsg2HNT2/networks-performance-test-dashboard-netlify-app-2.png)
-- [Visual Dashboard - Desktop Mode - Light Mode](https://i.postimg.cc/Fsg2HNT2/networks-performance-test-dashboard-netlify-app-3.png)
-- [Performance Dashboard - Mobile Mode - Dark Mode](https://i.postimg.cc/m2fKNtcc/networks-performance-test-dashboard-netlify-app-Samsung-Galaxy-S20-Ultra-1.png)
+- ![Performance Dashboard - Desktop Mode - Dark Mode](https://i.postimg.cc/1RFkbpwR/networks-performance-test-dashboard-netlify-app.png)
+- ![Performance Dashboard - Desktop Mode - Light Mode](https://i.postimg.cc/v89mXxmf/networks-performance-test-dashboard-netlify-app-4.png)
+- ![Sidebar - Desktop Mode - Dark Mode](https://i.postimg.cc/gj31RWmL/networks-performance-test-dashboard-netlify-app-1.png)
+- ![Sidebar - Desktop Mode - Light Mode](https://i.postimg.cc/gkW27cw5/networks-performance-test-dashboard-netlify-app-5.png)
+- ![Visual Dashboard - Desktop Mode - Dark Mode](https://i.postimg.cc/Fsg2HNT2/networks-performance-test-dashboard-netlify-app-2.png)
+- ![Visual Dashboard - Desktop Mode - Light Mode](https://i.postimg.cc/4yCxssWY/networks-performance-test-dashboard-netlify-app-3.png)
+- [Performance Dashboard - Mobile Mode - Dark Mode](https://i.postimg.cc/GhFVMdYX/networks-performance-test-dashboard-netlify-app-Samsung-Galaxy-S20-Ultra-1.png)
 - [Performance Dashboard - Mobile Mode - Light Mode](https://i.postimg.cc/gc6fZv0F/networks-performance-test-dashboard-netlify-app-i-Phone-14-Pro-Max.png)
 - [Visual Dashboard - Mobile Mode - Dark Mode](https://i.postimg.cc/RF2yY0XD/networks-performance-test-dashboard-netlify-app-i-Phone-14-Pro-Max-1.png)
 - [Visual Dashboard - Mobile Mode - Light Mode](https://i.postimg.cc/m2fKNtcc/networks-performance-test-dashboard-netlify-app-Samsung-Galaxy-S20-Ultra.png)
