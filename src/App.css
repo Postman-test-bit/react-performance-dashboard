@@ -1152,6 +1152,9 @@ body.light-mode .column-labels {
     padding: 8px;
     font-size: 13px;
   }
+  h1 {
+    font-size: 24px !important;
+  }
 }
 
 /* Small devices (landscape phones, 576px and down) */
@@ -1164,6 +1167,9 @@ body.light-mode .column-labels {
     padding: 6px;
     font-size: 12px;
     white-space: normal; /* Allow text wrapping on small screens */
+  }
+  h1 {
+    font-size: 24px !important;
   }
 }
 
@@ -1184,5 +1190,9 @@ body.light-mode .column-labels {
   /* Optional: Stack grid items vertically */
   .test-card > * {
     margin-bottom: 0.25rem;
+  }
+
+  h1 {
+    font-size: 24px !important;
   }
 }
