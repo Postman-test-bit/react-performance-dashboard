@@ -10,6 +10,9 @@ import Loading from "./Loading.jsx";
 import BrandTestCharts from "../charts/BrandTestCharts.jsx";
 import "../App.css";
 import "../charts/BrandChart.css";
+import VisualCards from "./VisualCards.jsx";
+
+let data;
 
 async function fetchData() {
   try {
@@ -67,7 +70,7 @@ const VisualDashboard = () => {
     const fetchDataAndSetState = async () => {
       try {
         setLoading(true);
-        const data = await fetchData();
+        data = await fetchData();
         setTestData(data || []);
         setLoading(false);
         setInitialLoad(false);
@@ -188,6 +191,7 @@ const VisualDashboard = () => {
         </div>
       ) : (
         <>
+          <VisualCards data={data} theme={theme} />
           <PieChart
             passed={passed}
             failed={failed}
