@@ -111,6 +111,7 @@
   background-color: var(--bg-secondary);
   border-radius: 0.5rem;
   box-shadow: var(--shadow);
+  padding: 0.4rem;
 }
 
 .hamburger-button:hover {

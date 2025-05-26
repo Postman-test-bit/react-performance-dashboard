@@ -205,7 +205,12 @@ function AppPage() {
         onClick={() => setIsMenuOpen(true)}
         aria-label="Open menu"
       >
-        ☰
+        {/* Hamburger icon */}
+        <img
+          src="https://img.icons8.com/fluency/48/menu--v3.png"
+          alt="Menu"
+          style={{ width: "24px", height: "24px" }}
+        />
       </button>
       <div
         style={{
