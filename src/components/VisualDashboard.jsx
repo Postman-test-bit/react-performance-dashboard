@@ -7,6 +7,7 @@ import ThemeToggle from "./ThemeToggle.jsx";
 import SidebarMenu from "./SidebarMenu";
 import PieChart from "../charts/PieChart.jsx";
 import Loading from "./Loading.jsx";
+import ScreenshotList from "./ScreenshotList.jsx";
 import BrandTestCharts from "../charts/BrandTestCharts.jsx";
 import "../App.css";
 import "../charts/BrandChart.css";
@@ -29,6 +30,20 @@ async function fetchData() {
     return null;
   }
 }
+async function fetchList() {
+  try {
+    const response = await fetch(
+      "https://test-dashboard-66zd.onrender.com/api/proxy/baselineList"
+    );
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+    const textData = await response.text();
+    return textData.split("\n").filter((path) => path.trim() !== "");
+  } catch (error) {
+    console.error("Failed to fetch screenshot paths:", error);
+    return [];
+  }
+}
 
 const VisualDashboard = () => {
   const [modalImage, setModalImage] = useState(null);
@@ -41,6 +56,23 @@ const VisualDashboard = () => {
   const [testData, setTestData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [initialLoad, setInitialLoad] = useState(true);
+  const [screenshotPaths, setScreenshotPaths] = useState([]);
+  const [showScreenshots, setShowScreenshots] = useState(false);
+  const [loadingScreenshots, setLoadingScreenshots] = useState(false);
+
+  const loadScreenshotPaths = async () => {
+    if (screenshotPaths.length > 0 || loadingScreenshots) return;
+
+    setLoadingScreenshots(true);
+    try {
+      const paths = await fetchList();
+      setScreenshotPaths(paths);
+    } catch (error) {
+      console.error("Error loading screenshots:", error);
+    } finally {
+      setLoadingScreenshots(false);
+    }
+  };
 
   // Theme handling
   useEffect(() => {
@@ -158,7 +190,12 @@ const VisualDashboard = () => {
         onClick={() => setIsMenuOpen(true)}
         aria-label="Open menu"
       >
-        ☰
+        {/* Hamburger icon */}
+        <img
+          src="https://img.icons8.com/fluency/48/menu--v3.png"
+          alt="Menu"
+          style={{ width: "24px", height: "24px" }}
+        />
       </button>
       <div
         style={{
@@ -316,6 +353,36 @@ const VisualDashboard = () => {
                 >
                   Clear All Filters
                 </button>
+              </div>
+            )}
+            <button
+              onClick={() => {
+                if (!showScreenshots) loadScreenshotPaths();
+                setShowScreenshots(!showScreenshots);
+              }}
+              className="mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors screenshot-toggle-button"
+            >
+              {showScreenshots
+                ? "Hide Screenshot Paths"
+                : "Show Screenshot Paths"}
+            </button>
+          </div>
+
+          <div>
+            {showScreenshots && (
+              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                {loadingScreenshots ? (
+                  <div className="text-gray-500 dark:text-gray-400 text-center">
+                    Loading screenshot paths...
+                  </div>
+                ) : screenshotPaths.length > 0 ? (
+                  <ScreenshotList paths={screenshotPaths} />
+                ) : (
+                  <div className="text-gray-500 dark:text-gray-400 text-center">
+                    No screenshot paths available! Seems like the baseline
+                    screenshots have already been uploaded.
+                  </div>
+                )}
               </div>
             )}
           </div>

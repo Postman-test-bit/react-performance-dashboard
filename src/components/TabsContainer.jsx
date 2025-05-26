@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 const TabsContainer = ({ activeTab, onTabChange, theme }) => {
   const tabs = [
-    { id: 'performance', label: 'Performance' },
-    { id: 'seo', label: 'SEO' },
-    { id: 'accessibility', label: 'Accessibility' },
-    { id: 'bestPractices', label: 'Best Practices' }
+    { id: "performance", label: "Performance" },
+    { id: "seo", label: "SEO" },
+    { id: "accessibility", label: "Accessibility" },
+    { id: "bestPractices", label: "Best Practices" },
   ];
 
   return (

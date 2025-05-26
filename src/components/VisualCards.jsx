@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import logoImage from "../failed_icon.png";
 
 const VisualCards = ({ data, theme }) => {
   const passed = data.filter((t) => t.status === "passed").length;
@@ -186,7 +187,16 @@ const VisualCards = ({ data, theme }) => {
               borderRadius: "8px",
             }}
           >
-            ⨊
+            <img
+              src="https://img.icons8.com/?size=100&id=aDxFydZTXC0Y&format=png&color=000000"
+              alt="Total Icon"
+              style={{
+                width: "45px",
+                height: "45px",
+                position: "relative",
+                right: "1rem",
+              }}
+            />
           </div>
           <div>
             <h3 style={titleStyle}>Total Tests</h3>
@@ -225,7 +235,16 @@ const VisualCards = ({ data, theme }) => {
               borderRadius: "8px",
             }}
           >
-            ☑️
+            <img
+              src="https://img.icons8.com/?size=100&id=AgSsCpE2BsM1&format=png&color=000000"
+              alt="Passed Icon"
+              style={{
+                width: "45px",
+                height: "45px",
+                position: "relative",
+                right: "1rem",
+              }}
+            />
           </div>
           <div>
             <h3 style={titleStyle}>Passed Tests</h3>
@@ -265,7 +284,16 @@ const VisualCards = ({ data, theme }) => {
               borderRadius: "8px",
             }}
           >
-            𒒬
+            <img
+              src={logoImage}
+              alt="Failed Icon"
+              style={{
+                width: "45px",
+                height: "45px",
+                position: "relative",
+                right: "1rem",
+              }}
+            />
           </div>
           <div>
             <h3 style={titleStyle}>Failed Tests</h3>
